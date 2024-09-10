@@ -1,0 +1,7 @@
+# ninja log v5
+40	1511	7476319983259367	CMakeFiles/COMP3340GraphicsEngine2.dir/src/core/main.cpp.obj	5cfedce4d0d26dff
+17	379	7476365702870075	build.ninja	5f3c5177fc9c7d8
+1512	1934	7476319986763731	COMP3340GraphicsEngine2.exe	eac6cb9d78bc5067
+16	1083	7475892094197226	CMakeFiles/COMP3340GraphicsEngine2.dir/src/shaders/Shader.cpp.obj	f8e12823092cf769
+23	946	7475847269815115	CMakeFiles/COMP3340GraphicsEngine2.dir/src/shader/Shader.cpp.obj	abb596a5f597f2dc
+48	644	7476319724514337	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/TestCube.cpp.obj	a5c354b9add7b740
