@@ -3,20 +3,32 @@
 #include <GL/glew.h>
 #include <vector>
 
+#include "graphics/MeshAttributeFlags.h"
+
 class Mesh {
 public:
-	Mesh();
+	Mesh(std::vector<float>& vertices, std::vector<GLuint>& indices, MeshAttributeFlags& meshAttributes);
 	~Mesh();
 
-	void bindVAO(const GLuint& newVAO);
-	GLuint getVAO();
+	std::vector<float> getVertices() const;
+	std::vector<GLuint> getIndices() const;
 
-	std::vector<float> getVertices();
-	std::vector<GLuint> getIndices();
+	MeshAttributeFlags getMeshAttributes() const;
+
+	GLuint getStartingIndex() const;
+	void setStartingIndex(const GLuint startingIndex);
+
+	bool hasPosition() const { return hasFlag(meshAttributes, MeshAttributeFlags::Position); }
+	bool hasNormal() const { return hasFlag(meshAttributes, MeshAttributeFlags::Normal); }
+	bool hasColor() const { return hasFlag(meshAttributes, MeshAttributeFlags::Color); }
+	bool hasTexCoord() const { return hasFlag(meshAttributes, MeshAttributeFlags::TexCoord); }
+
+	
 
 private:
+	MeshAttributeFlags meshAttributes;
 
-	GLuint m_VAO;
+	GLuint m_startingIndex;
 
 	std::vector<float> vertices;
 	std::vector<GLuint> indices;

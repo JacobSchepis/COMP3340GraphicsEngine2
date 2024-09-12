@@ -2,15 +2,16 @@
 #include <SDL/SDL.h>
 #include <iostream>
 #include "shaders/Shader.h"
+#include "graphics/Renderer.h"
 
 #include <vector>
-#include <graphics/TestCube.h>
+
+#include "graphics/BufferObject.h"
+#include "graphics/MeshAttributeFlags.h"
+#include "graphics/Mesh.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-
-GLuint VBO, EBO;
-
 
 // Function to initialize SDL and create an OpenGL context
 bool initSDL(SDL_Window** window, SDL_GLContext* context) {
@@ -56,73 +57,39 @@ bool initSDL(SDL_Window** window, SDL_GLContext* context) {
     return true;
 }
 
-void createObject(std::vector<TestCube>& testCubes) {
-    std::vector<float> vertices;
-    std::vector<GLuint> indices;
-
-    // Combine vertices and adjust indices for each cube
-    int offset = 0;
-    for (auto& testCube : testCubes) {
-        // Add the vertices of the current TestCube to the combined list
-        vertices.insert(vertices.end(), testCube.vertices.begin(), testCube.vertices.end());
-
-        // Add the indices, adjusting the offset for each object
-        for (auto index : testCube.indices) {
-            indices.push_back(index + offset);  // Offset the index based on previously added vertices
-        }
-
-        offset += testCube.vertices.size() / 3;  // Increase offset by the number of vertices
-    }
-
-    // Generate the VBO and EBO for the combined vertex and index data
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-
-    // Now each TestCube will configure its own VAO
-    for (auto& testCube : testCubes) {
-        testCube.setupVAO(VBO, EBO);
-    }
-}
-
-
 // Function to handle the render loop
 void runRenderLoop(SDL_Window* window) {
     bool running = true;
     SDL_Event event;
 
-
     Shader* shader = new Shader("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
 
-    std::vector<GLuint> indices = {
+    std::vector<float> vertices1 = {
+        1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+        0.0f, 1.0f, 0.0f
+    };
+
+    std::vector<float> vertices2 = {
+        -1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+        0.0f, -1.0f, 0.0f
+    };
+
+    std::vector<GLuint> indices1 = {
         0, 1, 2
     };
 
-    std::vector<float> vertices1 = {
-        -0.9f,  0.5f, 0.0f,   // Top left vertex
-        -0.5f, -0.5f, 0.0f,   // Bottom right vertex
-        -1.0f, -0.5f, 0.0f    // Bottom left vertex
+    std::vector<GLuint> indices2 = {
+        0, 1, 2
     };
 
-    TestCube testCube1 = TestCube(vertices1, indices);
+    MeshAttributeFlags flags = MeshAttributeFlags::None;
+
+    std::vector<Mesh> meshes = { Mesh(vertices1, indices1, flags), Mesh(vertices2, indices2, flags)};
+
+    BufferObject bufferObject = BufferObject(meshes);
     
-    std::vector<float> vertices2 = {
-        // Positions         // Texture coordinates (optional)
-         0.5f,  0.5f, 0.0f,   // Top right vertex
-         0.9f, -0.5f, 0.0f,   // Bottom right vertex
-         0.0f, -0.5f, 0.0f    // Bottom left vertex
-    };
-
-    TestCube testCube2 = TestCube(vertices2, indices);
-
-    std::vector<TestCube> testCubes = { testCube1, testCube2 };
-
-    createObject(testCubes);
-
     while (running) {
         // Handle events
         while (SDL_PollEvent(&event) != 0) {
@@ -131,19 +98,13 @@ void runRenderLoop(SDL_Window* window) {
             }
         }
 
-        // Clear the screen with a color
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
+                
         shader->Use();
-        for (auto& testCube : testCubes) {
-            glBindVertexArray(testCube.VAO);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            glBindVertexArray(0);
-        }
-        
-        
-        // Swap buffers
+
+        bufferObject.draw();
+
         SDL_GL_SwapWindow(window);
     }
 }

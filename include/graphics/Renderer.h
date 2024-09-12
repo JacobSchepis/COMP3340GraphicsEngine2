@@ -1,20 +1,23 @@
 #pragma once
 
 #include <vector>
-#include "graphics/TestCube.h"
 #include "shaders/Shader.h"
-#include <SDL/SDL.h>
+#include "graphics/BufferObject.h"
+
 
 class Renderer {
 public:
 	Renderer();
 	~Renderer();
 
-	void sendObjectsToBuffer(std::vector<TestCube>& testCubes);
-	void sendObjectsToBuffer(TestCube& testCube);
+	void render(Shader* shader);
 
-	void render(Shader* shader, SDL_Window* window);
+	void queueMeshIntoBufferObject(Mesh& mesh);
+
+	void pushMeshesToBuffer();
 
 private:
-	GLuint m_VBO, m_EBO;
+	std::vector<BufferObject> m_bufferObjects;
+
+	std::vector<Mesh> m_meshToBufferObjectQueue;
 };
