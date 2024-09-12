@@ -1,16 +1,12 @@
 # ninja log v5
-46	1705	7478493655216593	CMakeFiles/COMP3340GraphicsEngine2.dir/src/core/main.cpp.obj	5cfedce4d0d26dff
-17	379	7478494279687882	build.ninja	5f3c5177fc9c7d8
-1707	2064	7478493658187881	COMP3340GraphicsEngine2.exe	35c4b6b415ce1404
+35	1688	7478505880236584	CMakeFiles/COMP3340GraphicsEngine2.dir/src/core/main.cpp.obj	5cfedce4d0d26dff
+17	379	7478531424805530	build.ninja	5f3c5177fc9c7d8
+1688	2060	7478505883068873	COMP3340GraphicsEngine2.exe	e7671ec74e49e522
 16	1083	7475892094197226	CMakeFiles/COMP3340GraphicsEngine2.dir/src/shaders/Shader.cpp.obj	f8e12823092cf769
 23	946	7475847269815115	CMakeFiles/COMP3340GraphicsEngine2.dir/src/shader/Shader.cpp.obj	abb596a5f597f2dc
 48	644	7476319724514337	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/TestCube.cpp.obj	a5c354b9add7b740
 19	533	7478480081737324	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/Mesh.cpp.obj	17b85eab17a83dc9
-31	976	7478490908505498	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/Renderer.cpp.obj	1c1d352f6c7f9641
+56	1323	7478505876614814	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/Renderer.cpp.obj	1c1d352f6c7f9641
 20	738	7478479761975726	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/BufferObject.cpp.obj	7639ed4bcd783c6b
-25	701	7478490905785696	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/Camera.cpp.obj	7bde73829723c23b
 44	978	7478505873199464	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/Camera.cpp.obj	7bde73829723c23b
 65	1032	7478505873736640	CMakeFiles/COMP3340GraphicsEngine2.dir/src/input/InputManager.cpp.obj	224711d4171f28ab
-56	1323	7478505876614814	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/Renderer.cpp.obj	1c1d352f6c7f9641
-35	1688	7478505880236584	CMakeFiles/COMP3340GraphicsEngine2.dir/src/core/main.cpp.obj	5cfedce4d0d26dff
-1688	2060	7478505883068873	COMP3340GraphicsEngine2.exe	e7671ec74e49e522

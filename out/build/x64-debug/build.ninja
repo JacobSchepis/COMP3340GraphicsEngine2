@@ -73,14 +73,6 @@ build CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\Camera.cpp.obj: CXX_CO
   TARGET_COMPILE_PDB = CMakeFiles\COMP3340GraphicsEngine2.dir\
   TARGET_PDB = COMP3340GraphicsEngine2.pdb
 
-build CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\Mesh.cpp.obj: CXX_COMPILER__COMP3340GraphicsEngine2_unscanned_Debug C$:\Users\jsche\source\repos\COMP3340GraphicsEngine2\src\graphics\Mesh.cpp || cmake_object_order_depends_target_COMP3340GraphicsEngine2
-  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1
-  INCLUDES = -IC:\Users\jsche\source\repos\COMP3340GraphicsEngine2\include -IC:\Users\jsche\source\repos\COMP3340GraphicsEngine2\include\glew -IC:\Users\jsche\source\repos\COMP3340GraphicsEngine2\include\SDL2
-  OBJECT_DIR = CMakeFiles\COMP3340GraphicsEngine2.dir
-  OBJECT_FILE_DIR = CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics
-  TARGET_COMPILE_PDB = CMakeFiles\COMP3340GraphicsEngine2.dir\
-  TARGET_PDB = COMP3340GraphicsEngine2.pdb
-
 build CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\Renderer.cpp.obj: CXX_COMPILER__COMP3340GraphicsEngine2_unscanned_Debug C$:\Users\jsche\source\repos\COMP3340GraphicsEngine2\src\graphics\Renderer.cpp || cmake_object_order_depends_target_COMP3340GraphicsEngine2
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1
   INCLUDES = -IC:\Users\jsche\source\repos\COMP3340GraphicsEngine2\include -IC:\Users\jsche\source\repos\COMP3340GraphicsEngine2\include\glew -IC:\Users\jsche\source\repos\COMP3340GraphicsEngine2\include\SDL2
@@ -113,7 +105,7 @@ build CMakeFiles\COMP3340GraphicsEngine2.dir\src\shaders\Shader.cpp.obj: CXX_COM
 #############################################
 # Link the executable COMP3340GraphicsEngine2.exe
 
-build COMP3340GraphicsEngine2.exe: CXX_EXECUTABLE_LINKER__COMP3340GraphicsEngine2_Debug CMakeFiles\COMP3340GraphicsEngine2.dir\src\core\main.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\BufferObject.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\Camera.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\Mesh.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\Renderer.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\input\InputManager.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\shaders\Shader.cpp.obj | C$:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\glew32.lib C$:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\SDL2.lib C$:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\SDL2main.lib
+build COMP3340GraphicsEngine2.exe: CXX_EXECUTABLE_LINKER__COMP3340GraphicsEngine2_Debug CMakeFiles\COMP3340GraphicsEngine2.dir\src\core\main.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\BufferObject.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\Camera.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\graphics\Renderer.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\input\InputManager.cpp.obj CMakeFiles\COMP3340GraphicsEngine2.dir\src\shaders\Shader.cpp.obj | C$:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\glew32.lib C$:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\SDL2.lib C$:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\SDL2main.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = opengl32.lib  C:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\glew32.lib  C:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\SDL2.lib  C:\Users\jsche\source\repos\COMP3340GraphicsEngine2\lib\SDL2main.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

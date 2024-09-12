@@ -3,41 +3,41 @@
 #include <GL/glew.h>
 #include <vector>
 #include <glm/glm.hpp>
+#include "components/IComponent.h"
+#include "entities/Entity.h"
 
-#include "graphics/MeshAttributeFlags.h"
 
-class Mesh {
+class Mesh : public IComponent{
 public:
-	Mesh(std::vector<float> vertices, 
-			std::vector<GLuint> indices, 
-			glm::vec3 position,
-			glm::vec3 rotation,
-			glm::vec3 scale);
-	~Mesh();
+	Mesh(Entity* parent,
+		std::vector<float> vertices,
+		std::vector<GLuint> indices)
 
-	std::vector<float> getVertices() const;
-	std::vector<GLuint> getIndices() const;
+		: IComponent(parent), m_startingIndex(0), vertices(vertices), indices(indices)
+	{
+	}
+	~Mesh() {
 
-	MeshAttributeFlags getMeshAttributes() const;
+	}
 
-	GLuint getStartingIndex() const;
-	void setStartingIndex(const GLuint startingIndex);
+	std::vector<float> getVertices() const {
+		return vertices;
+	}
+	std::vector<GLuint> getIndices() const {
+		return indices;
+	}
 
-	glm::mat4 getModel();
+	GLuint getStartingIndex() const {
+		return m_startingIndex;
+	}
+
+	void setStartingIndex(const GLuint startingIndex) {
+		m_startingIndex += startingIndex;
+	}
 
 private:
-	MeshAttributeFlags meshAttributes;
-
 	GLuint m_startingIndex;
 
 	std::vector<float> vertices;
 	std::vector<GLuint> indices;
-
-	glm::vec3 position;
-	glm::vec3 rotation;
-	glm::vec3 scale;
-
-	glm::mat4 model;
-
-	void updateModelMatrix();
 };
