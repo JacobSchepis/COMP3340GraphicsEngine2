@@ -6,9 +6,14 @@
 
 #include <vector>
 
-#include "graphics/BufferObject.h"
-#include "graphics/MeshAttributeFlags.h"
 #include "graphics/Mesh.h"
+
+#include "graphics/Camera.h"
+
+#include "input/InputManager.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -65,7 +70,7 @@ void runRenderLoop(SDL_Window* window) {
     Shader* shader = new Shader("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
     Renderer renderer = Renderer();
 
-#pragma region MyRegion
+#pragma region Creating cubes
     std::vector<float> vertices = {
         // Positions         
         -0.5f, -0.5f, -0.5f, // 0: Bottom-left-back
@@ -95,9 +100,6 @@ void runRenderLoop(SDL_Window* window) {
     };
 
 
-
-    MeshAttributeFlags flags = MeshAttributeFlags::None;
-
     Mesh mesh1 = Mesh(vertices, indices, glm::vec3(1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
     Mesh mesh2 = Mesh(vertices, indices, glm::vec3(-1, 0, 0), glm::vec3(10, 0, 0), glm::vec3(1, 1, 1));
 
@@ -109,14 +111,31 @@ void runRenderLoop(SDL_Window* window) {
     renderer.pushMeshesToBuffer();
 
 #pragma endregion
-    
+  
+
+#pragma region Creating Camera
+
+    Camera camera = Camera(
+        glm::vec3(0, 6, 7),
+        glm::vec3(0, 0, 0),
+        glm::vec3(0, 1, 0),
+        60.f,
+        800.0f / 600.0f,
+        0.1f,
+        10.0f
+    );
+
+    renderer.setActiveCamera(&camera);
+
+#pragma endregion
+
     while (running) {
-        // Handle events
-        while (SDL_PollEvent(&event) != 0) {
-            if (event.type == SDL_QUIT) {
-                running = false;
-            }
-        }
+        
+        InputManager::Instance().ProcessInputs();
+        if (InputManager::Instance().GetApplicationQuit())
+            SDL_Quit();
+
+
         renderer.render(shader);
 
         SDL_GL_SwapWindow(window);

@@ -3,6 +3,7 @@
 #include <vector>
 #include "shaders/Shader.h"
 #include "graphics/BufferObject.h"
+#include "graphics/Camera.h"
 
 
 class Renderer {
@@ -16,8 +17,12 @@ public:
 
 	void pushMeshesToBuffer();
 
+	void setActiveCamera(Camera* camera);
+
 private:
 	std::vector<BufferObject*> m_bufferObjects;
 
 	std::vector<Mesh*> m_meshToBufferObjectQueue;
+
+	Camera* activeCamera;
 };

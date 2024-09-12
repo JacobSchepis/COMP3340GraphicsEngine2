@@ -6,10 +6,13 @@
 #include <glm/gtc/type_ptr.hpp>          // For glm::value_ptr (to pass matrices to shaders)
 
 
-Renderer::Renderer()
+Renderer::Renderer() : activeCamera(nullptr)
 {}
 
-Renderer::~Renderer() {}
+Renderer::~Renderer() 
+{
+    activeCamera = nullptr;
+}
 
 
 void Renderer::render(Shader* shader) {
@@ -17,19 +20,9 @@ void Renderer::render(Shader* shader) {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Create the View matrix (position the camera)
-    glm::mat4 view = glm::lookAt(
-        glm::vec3(0.0f, 0.0f, 3.0f),  // Camera position
-        glm::vec3(0.0f, 0.0f, 0.0f),  // Look at origin
-        glm::vec3(0.0f, 1.0f, 0.0f)   // Up vector
-    );
+    const glm::mat4& view = activeCamera->getViewMatrix();
 
-    // Create the Projection matrix (perspective projection)
-    glm::mat4 projection = glm::perspective(
-        glm::radians(45.0f),          // Field of view
-        800.f / 600.f,  // Aspect ratio
-        0.1f, 100.0f                 // Near and far clipping planes
-    );
+    const glm::mat4& projection = activeCamera->getProjectionMatrix();
 
     shader->Use();
 
@@ -41,8 +34,6 @@ void Renderer::render(Shader* shader) {
 
     for (BufferObject* bufferObject : m_bufferObjects)
         bufferObject->draw(shader);
-
-
 }
 
 void Renderer::queueMeshIntoBufferObject(Mesh* mesh) {
@@ -53,4 +44,8 @@ void Renderer::pushMeshesToBuffer() {
     BufferObject* newBufferObject = new BufferObject(m_meshToBufferObjectQueue);
     m_bufferObjects.push_back(newBufferObject);
     m_meshToBufferObjectQueue.clear();
+}
+
+void Renderer::setActiveCamera(Camera* camera) {
+    activeCamera = camera;
 }
