@@ -63,32 +63,52 @@ void runRenderLoop(SDL_Window* window) {
     SDL_Event event;
 
     Shader* shader = new Shader("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
+    Renderer renderer = Renderer();
 
-    std::vector<float> vertices1 = {
-        1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f
+#pragma region MyRegion
+    std::vector<float> vertices = {
+        // Positions         
+        -0.5f, -0.5f, -0.5f, // 0: Bottom-left-back
+         0.5f, -0.5f, -0.5f, // 1: Bottom-right-back
+         0.5f,  0.5f, -0.5f, // 2: Top-right-back
+        -0.5f,  0.5f, -0.5f, // 3: Top-left-back
+        -0.5f, -0.5f,  0.5f, // 4: Bottom-left-front
+         0.5f, -0.5f,  0.5f, // 5: Bottom-right-front
+         0.5f,  0.5f,  0.5f, // 6: Top-right-front
+        -0.5f,  0.5f,  0.5f  // 7: Top-left-front
     };
 
-    std::vector<float> vertices2 = {
-        -1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f,
-        0.0f, -1.0f, 0.0f
+
+    std::vector<GLuint> indices = {
+        // Back face
+        0, 1, 2, 2, 3, 0,
+        // Front face
+        4, 5, 6, 6, 7, 4,
+        // Left face
+        0, 3, 7, 7, 4, 0,
+        // Right face
+        1, 5, 6, 6, 2, 1,
+        // Bottom face
+        0, 1, 5, 5, 4, 0,
+        // Top face
+        3, 2, 6, 6, 7, 3
     };
 
-    std::vector<GLuint> indices1 = {
-        0, 1, 2
-    };
 
-    std::vector<GLuint> indices2 = {
-        0, 1, 2
-    };
 
     MeshAttributeFlags flags = MeshAttributeFlags::None;
 
-    std::vector<Mesh> meshes = { Mesh(vertices1, indices1, flags), Mesh(vertices2, indices2, flags)};
+    Mesh mesh1 = Mesh(vertices, indices, glm::vec3(1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
+    Mesh mesh2 = Mesh(vertices, indices, glm::vec3(-1, 0, 0), glm::vec3(10, 0, 0), glm::vec3(1, 1, 1));
 
-    BufferObject bufferObject = BufferObject(meshes);
+
+    renderer.queueMeshIntoBufferObject(&mesh1);
+    renderer.queueMeshIntoBufferObject(&mesh2);
+
+    
+    renderer.pushMeshesToBuffer();
+
+#pragma endregion
     
     while (running) {
         // Handle events
@@ -97,17 +117,13 @@ void runRenderLoop(SDL_Window* window) {
                 running = false;
             }
         }
-
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-                
-        shader->Use();
-
-        bufferObject.draw();
+        renderer.render(shader);
 
         SDL_GL_SwapWindow(window);
     }
 }
+
+
 
 
 // Function to clean up SDL and OpenGL context

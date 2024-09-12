@@ -12,12 +12,12 @@ public:
 
 	void render(Shader* shader);
 
-	void queueMeshIntoBufferObject(Mesh& mesh);
+	void queueMeshIntoBufferObject(Mesh* mesh);
 
 	void pushMeshesToBuffer();
 
 private:
-	std::vector<BufferObject> m_bufferObjects;
+	std::vector<BufferObject*> m_bufferObjects;
 
-	std::vector<Mesh> m_meshToBufferObjectQueue;
+	std::vector<Mesh*> m_meshToBufferObjectQueue;
 };

@@ -2,12 +2,17 @@
 
 #include <GL/glew.h>
 #include <vector>
+#include <glm/glm.hpp>
 
 #include "graphics/MeshAttributeFlags.h"
 
 class Mesh {
 public:
-	Mesh(std::vector<float>& vertices, std::vector<GLuint>& indices, MeshAttributeFlags& meshAttributes);
+	Mesh(std::vector<float> vertices, 
+			std::vector<GLuint> indices, 
+			glm::vec3 position,
+			glm::vec3 rotation,
+			glm::vec3 scale);
 	~Mesh();
 
 	std::vector<float> getVertices() const;
@@ -18,12 +23,7 @@ public:
 	GLuint getStartingIndex() const;
 	void setStartingIndex(const GLuint startingIndex);
 
-	bool hasPosition() const { return hasFlag(meshAttributes, MeshAttributeFlags::Position); }
-	bool hasNormal() const { return hasFlag(meshAttributes, MeshAttributeFlags::Normal); }
-	bool hasColor() const { return hasFlag(meshAttributes, MeshAttributeFlags::Color); }
-	bool hasTexCoord() const { return hasFlag(meshAttributes, MeshAttributeFlags::TexCoord); }
-
-	
+	glm::mat4 getModel();
 
 private:
 	MeshAttributeFlags meshAttributes;
@@ -32,4 +32,12 @@ private:
 
 	std::vector<float> vertices;
 	std::vector<GLuint> indices;
+
+	glm::vec3 position;
+	glm::vec3 rotation;
+	glm::vec3 scale;
+
+	glm::mat4 model;
+
+	void updateModelMatrix();
 };

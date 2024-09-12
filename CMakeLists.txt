@@ -16,7 +16,7 @@ include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
 file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/**/*.cpp")
 
 # Add the executable and link it to the source files
-add_executable(COMP3340GraphicsEngine2 ${SOURCES} "include/shaders/Vertex.h"   "include/graphics/Renderer.h" "src/graphics/Renderer.cpp" "include/graphics/Mesh.h"  "src/graphics/Mesh.cpp" "include/graphics/BufferObject.h")
+add_executable(COMP3340GraphicsEngine2 ${SOURCES} "include/shaders/Vertex.h"   "include/graphics/Renderer.h" "src/graphics/Renderer.cpp" "include/graphics/Mesh.h"  "src/graphics/Mesh.cpp" "include/graphics/BufferObject.h" "src/graphics/BufferObject.cpp")
 
 # Link OpenGL (use opengl32.lib directly for Windows)
 if(WIN32)
