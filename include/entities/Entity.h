@@ -5,11 +5,16 @@
 
 #include "components/IComponent.h"
 
+class IComponent;
+
 class Entity {
 private:
     std::vector<std::unique_ptr<IComponent>> components;
 
 public:
+
+    Entity();
+
     template <typename T, typename... Args>
     void addComponent(Args&&... args) {
         auto component = std::make_unique<T>(std::forward<Args>(args)...);

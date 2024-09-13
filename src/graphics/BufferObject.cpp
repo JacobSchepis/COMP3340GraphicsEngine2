@@ -2,7 +2,14 @@
 #include <glm/gtc/type_ptr.hpp> 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "entities/Entity.h"
+#include "components/Transform.h"
+
 #include <SDL/SDL.h>
+
+#include <iostream>
+
+#include "util/Debug.h"
 
 BufferObject::BufferObject(std::vector<Mesh*> meshes) {
     glGenBuffers(1, &VBO);
@@ -51,9 +58,11 @@ void BufferObject::bufferData(std::vector<Mesh*>& meshes) {
 
     for (Mesh* mesh : meshes) {
 
+        std::cout << "there's an object" << std::endl;
+
         // Get vertices and indices from the mesh
-        auto vertices = mesh->getVertices();
-        auto indices = mesh->getIndices();
+        const auto vertices = mesh->getVertices();
+        const auto indices = mesh->getIndices();
 
         // Add vertices to the vertex buffer
         if (!vertices.empty()) {
@@ -63,7 +72,7 @@ void BufferObject::bufferData(std::vector<Mesh*>& meshes) {
         // Adjust the indices and add to the index buffer
         if (!indices.empty()) {
             // Offset the indices by the current number of vertices
-            for (GLuint& number : indices) {
+            for (GLuint number : indices) {
                 number += vertexOffset;  // Adjust indices based on the current vertex count
             }
 
@@ -77,6 +86,7 @@ void BufferObject::bufferData(std::vector<Mesh*>& meshes) {
             indexOffset += indices.size();        // Update index offset based on number of indices added
         }
     }
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 
@@ -93,14 +103,15 @@ void BufferObject::draw(Shader* shader) const {
 
         for (Mesh* mesh : meshes) {
 
-            auto model = mesh->getModel();
+            auto model = mesh->parent->getComponent<Transform>()->getModel();
 
-            model = glm::rotate(model, (float)SDL_GetTicks() / 1000.0f, glm::vec3(0.5f, 1.0f, 0.0f));  // Rotate over time
+            //model = glm::rotate(model, (float)SDL_GetTicks() / 1000.0f, glm::vec3(0.5f, 1.0f, 0.0f));  // Rotate over time
 
             GLuint modelLoc = glGetUniformLocation(shader->Program, "model");
 
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
+            //std::cout << mesh->getIndices().size() << std::endl;
 
             glDrawElements(
                 GL_TRIANGLES,
@@ -108,6 +119,8 @@ void BufferObject::draw(Shader* shader) const {
                 GL_UNSIGNED_INT,
                 (void*)(mesh->getStartingIndex() * sizeof(GLuint))
             );
+
+            //Debug::checkOpenGLError("after draw");
         }
     }
     glBindVertexArray(0);

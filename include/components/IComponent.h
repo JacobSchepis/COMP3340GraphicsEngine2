@@ -2,11 +2,13 @@
 
 #include "entities/Entity.h"
 
+class Entity;
+
 class IComponent {
 public:
-    Entity* parent;
+    IComponent(Entity* parent) : parent(parent) {};
 
-    IComponent(Entity* parent) : parent(parent) {}
+    Entity* parent = nullptr;
 
-    virtual ~IComponent() {}
+    virtual ~IComponent() {};
 };

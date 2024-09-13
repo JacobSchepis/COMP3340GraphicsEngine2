@@ -6,13 +6,14 @@
 
 #include <vector>
 
-#include "graphics/Mesh.h"
-
-#include "graphics/Camera.h"
+#include "components/Mesh.h"
+#include "components/Transform.h"
+#include "components/Camera.h"
 
 #include "input/InputManager.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+
 
 
 const int SCREEN_WIDTH = 800;
@@ -100,14 +101,19 @@ void runRenderLoop(SDL_Window* window) {
     };
 
 
-    Mesh mesh1 = Mesh(vertices, indices, glm::vec3(1, 0, 0), glm::vec3(0, 0, 0), glm::vec3(1, 1, 1));
-    Mesh mesh2 = Mesh(vertices, indices, glm::vec3(-1, 0, 0), glm::vec3(10, 0, 0), glm::vec3(1, 1, 1));
+    Entity entity = Entity();
+    entity.addComponent<Mesh>(&entity, vertices, indices);
+
+    Entity entity1 = Entity();
+    entity1.addComponent<Mesh>(&entity1, vertices, indices);
+
+    Mesh* meshPtr = entity.getComponent<Mesh>();
+    Mesh* meshPtr1 = entity1.getComponent<Mesh>();
+
+    renderer.queueMeshIntoBufferObject(meshPtr);
+    renderer.queueMeshIntoBufferObject(meshPtr1);
 
 
-    renderer.queueMeshIntoBufferObject(&mesh1);
-    renderer.queueMeshIntoBufferObject(&mesh2);
-
-    
     renderer.pushMeshesToBuffer();
 
 #pragma endregion
@@ -115,17 +121,16 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma region Creating Camera
 
-    Camera camera = Camera(
-        glm::vec3(0, 6, 7),
-        glm::vec3(0, 0, 0),
-        glm::vec3(0, 1, 0),
-        60.f,
-        800.0f / 600.0f,
-        0.1f,
-        10.0f
-    );
+    Entity camera = Entity();
+    camera.addComponent<Camera>(&camera, 60.0f, 4.0f / 3.0f, 0.1f, 20.0f);
 
-    renderer.setActiveCamera(&camera);
+    Camera* camPtr = camera.getComponent<Camera>();
+
+    Transform* transformPtr = camera.getComponent<Transform>();
+
+    transformPtr->position = glm::vec3(0, 0, 5);
+
+    renderer.setActiveCamera(camPtr);
 
 #pragma endregion
 

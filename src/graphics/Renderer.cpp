@@ -5,6 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>  // For glm::perspective, glm::rotate, glm::translate, etc.
 #include <glm/gtc/type_ptr.hpp>          // For glm::value_ptr (to pass matrices to shaders)
 
+#include "components/Transform.h"
+#include <iostream>
 
 Renderer::Renderer() : activeCamera(nullptr)
 {}
@@ -23,6 +25,7 @@ void Renderer::render(Shader* shader) {
     const glm::mat4& view = activeCamera->getViewMatrix();
 
     const glm::mat4& projection = activeCamera->getProjectionMatrix();
+
 
     shader->Use();
 

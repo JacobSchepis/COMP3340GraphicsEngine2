@@ -3,7 +3,7 @@
 #include <vector>
 #include "shaders/Shader.h"
 #include "graphics/BufferObject.h"
-#include "graphics/Camera.h"
+#include "components/Camera.h"
 
 
 class Renderer {

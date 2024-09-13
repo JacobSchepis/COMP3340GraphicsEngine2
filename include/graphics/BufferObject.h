@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <unordered_map>
 #include <vector>
-#include "graphics/Mesh.h"
+#include "components/Mesh.h"
 
 #include "shaders/Shader.h"
 
