@@ -26,3 +26,5 @@
 49	1166	7480322994288707	CMakeFiles/COMP3340GraphicsEngine2.dir/src/core/main.cpp.obj	5cfedce4d0d26dff
 60	1234	7480322994914538	CMakeFiles/COMP3340GraphicsEngine2.dir/src/graphics/BufferObject.cpp.obj	7639ed4bcd783c6b
 1234	1420	7480322996390176	COMP3340GraphicsEngine2.exe	b3f8ed79f994ed50
+6	467	7480323525100997	CMakeFiles/COMP3340GraphicsEngine2.dir/src/components/Transform.cpp.obj	79994d157dc4fdb1
+468	611	7480323526218522	COMP3340GraphicsEngine2.exe	b3f8ed79f994ed50
