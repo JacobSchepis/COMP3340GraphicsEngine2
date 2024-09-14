@@ -1,7 +1,9 @@
 #include "components/Camera.h"
-#include <glm/gtc/matrix_transform.hpp>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "components/Transform.h"
+#include "entities/Entity.h"
 
 Camera::Camera(Entity* parent, float fov, float aspectRatio, float nearClip, float farClip)
     : IComponent(parent), fov(fov), aspectRatio(aspectRatio), nearClip(nearClip), farClip(farClip) {

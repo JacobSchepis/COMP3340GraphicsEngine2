@@ -1,11 +1,13 @@
 #include "components/Transform.h"
 
-Transform::Transform(Entity* parent) : IComponent(parent), position(0.0f), rotation(0.0f), scale(1.0f), model(glm::mat4(0)) 
+Transform::Transform(Entity* parent) : IComponent(parent), position(0.0f), rotation(0.0f), scale(1.0f), model(glm::mat4(1.0f)) 
 {
     updateModelMatrix();
 }
 
 void Transform::updateModelMatrix() {
+
+    model = glm::mat4(1.0f);
 
     // Apply transformations in order: Scale -> Rotate -> Translate
     model = glm::translate(model, position);  // Translate to position
