@@ -1,11 +1,10 @@
 #include <GL/glew.h>
 #include <SDL/SDL.h>
 #include <iostream>
-#include <vector>
-#include <glm/gtc/matrix_transform.hpp>
-
 #include "shaders/Shader.h"
 #include "graphics/Renderer.h"
+
+#include <vector>
 
 #include "components/Mesh.h"
 #include "components/Transform.h"
@@ -13,7 +12,7 @@
 
 #include "input/InputManager.h"
 
-#include "entities/Entity.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 
 
@@ -108,16 +107,12 @@ void runRenderLoop(SDL_Window* window) {
     Entity entity1 = Entity();
     entity1.addComponent<Mesh>(&entity1, vertices, indices);
 
-    Transform* entityTransformPtr = entity.getComponent<Transform>();
-
-    entityTransformPtr->position = glm::vec3(1, 1, 0);
-    entityTransformPtr->updateModelMatrix();
-
     Mesh* meshPtr = entity.getComponent<Mesh>();
     Mesh* meshPtr1 = entity1.getComponent<Mesh>();
 
     renderer.queueMeshIntoBufferObject(meshPtr);
     renderer.queueMeshIntoBufferObject(meshPtr1);
+
 
     renderer.pushMeshesToBuffer();
 

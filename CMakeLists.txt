@@ -16,27 +16,7 @@ include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
 file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/**/*.cpp")
 
 # Add the executable and link it to the source files
-add_executable(COMP3340GraphicsEngine2 ${SOURCES} 
-    "include/shaders/Vertex.h"   
-
-    "include/entities/Entity.h"         "src/entities/Entity.cpp" 
-
-
-    "include/components/IComponent.h" 
-    "include/components/Transform.h"    "src/components/Transform.cpp"
-    "include/components/Mesh.h"         "src/components/Mesh.cpp"
-    "include/components/Camera.h"       "src/components/Camera.cpp" 
-    "include/components/Monobehavior.h" "src/components/Monobehavior.cpp"
-
-
-    "include/graphics/Renderer.h"       "src/graphics/Renderer.cpp" 
-    "include/graphics/BufferObject.h"   "src/graphics/BufferObject.cpp" 
-
-    "include/input/InputManager.h"      "src/input/InputManager.cpp"  
-
-    "include/util/Debug.h"              "src/util/Debug.cpp"
-
-    )
+add_executable(COMP3340GraphicsEngine2 ${SOURCES} "include/shaders/Vertex.h"   "include/graphics/Renderer.h" "src/graphics/Renderer.cpp" "include/components/Mesh.h"   "include/graphics/BufferObject.h" "src/graphics/BufferObject.cpp" "include/components/Camera.h" "src/components/Camera.cpp" "src/input/InputManager.cpp" "include/input/InputManager.h" "include/components/IComponent.h" "include/components/Transform.h"  "include/entities/Entity.h" "src/components/Mesh.cpp" "src/components/Transform.cpp" "src/entities/Entity.cpp" "src/util/Debug.cpp" "include/util/Debug.h")
 
 # Link OpenGL (use opengl32.lib directly for Windows)
 if(WIN32)

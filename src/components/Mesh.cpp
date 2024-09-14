@@ -14,6 +14,7 @@ Mesh::~Mesh() {
 }
 
 std::vector<float> Mesh::getVertices() const {
+	std::cout << vertices[0] << std::endl;
 	return vertices;
 }
 std::vector<GLuint> Mesh::getIndices() const {

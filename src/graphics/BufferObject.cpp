@@ -58,6 +58,8 @@ void BufferObject::bufferData(std::vector<Mesh*>& meshes) {
 
     for (Mesh* mesh : meshes) {
 
+        std::cout << "there's an object" << std::endl;
+
         // Get vertices and indices from the mesh
         const auto vertices = mesh->getVertices();
         const auto indices = mesh->getIndices();
@@ -103,7 +105,7 @@ void BufferObject::draw(Shader* shader) const {
 
             auto model = mesh->parent->getComponent<Transform>()->getModel();
 
-            model = glm::rotate(model, (float)SDL_GetTicks() / 1000.0f, glm::vec3(0.5f, 1.0f, 0.0f));  // Rotate over time
+            //model = glm::rotate(model, (float)SDL_GetTicks() / 1000.0f, glm::vec3(0.5f, 1.0f, 0.0f));  // Rotate over time
 
             GLuint modelLoc = glGetUniformLocation(shader->Program, "model");
 

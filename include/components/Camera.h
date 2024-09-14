@@ -1,11 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "entities/Entity.h"
 #include "IComponent.h"
-
-class IComponent;
-class Entity;
-
 
 class Camera : public IComponent{
 public:
