@@ -16,6 +16,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "scripts/TestHelloWorld.h"
+
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -114,6 +116,8 @@ void runRenderLoop(SDL_Window* window) {
     entity1.getComponent<Transform>()->position = glm::vec3(1, 1, 0);
     entity1.getComponent<Transform>()->updateModelMatrix();
 
+    entity.addComponent<TestHelloWorld>();
+
     renderer.queueMeshIntoBufferObject(meshPtr);
     renderer.queueMeshIntoBufferObject(meshPtr1);
 
@@ -144,6 +148,7 @@ void runRenderLoop(SDL_Window* window) {
         if (InputManager::Instance().GetApplicationQuit())
             SDL_Quit();
 
+        MonobehaviorManager::Instance().update();
 
         renderer.render(shader);
 

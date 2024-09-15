@@ -4,6 +4,8 @@
 
 class Monobehavior : public IComponent {
 public:
+	virtual ~Monobehavior() = default;
+
 	virtual void awake(){}
 
 	virtual void start(){}

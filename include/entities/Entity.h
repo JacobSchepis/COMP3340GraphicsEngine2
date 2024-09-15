@@ -5,6 +5,7 @@
 
 #include "systems/MonobehaviorManager.h"
 
+
 class IComponent;
 
 class Entity {
@@ -21,7 +22,7 @@ public:
         component->parent = this;  // Set the parent pointer
         components.push_back(std::move(component));
 
-
+        addMonobehavior(components.back().get());
     }
 
     // Method to get a specific type of component
@@ -37,4 +38,7 @@ public:
         }
         return nullptr;
     }
+
+private:
+    void addMonobehavior(void* monobehavior);
 };
