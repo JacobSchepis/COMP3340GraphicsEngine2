@@ -11,13 +11,15 @@ public:
 
 	static InputManager& Instance();
 
-	void ProcessInputs();
+	void processInputs();
 
-	bool GetApplicationQuit();
+	bool getApplicationQuit();
 
-	SDL_MouseMotionEvent* GetMouseEvent();
+	SDL_MouseMotionEvent* getMouseEvent();
 
-	glm::vec2* GetwasdInputVector();
+	glm::vec2& getMouseDelta();
+
+	glm::vec2& getWasdInputVector();
 
 private:
 	InputManager();
@@ -27,6 +29,7 @@ private:
 	bool applicationQuit;
 
 	glm::vec2 wasdInputVector;
+	glm::vec2 mouseDelta;
 
 	void ProcessKeyDownEvent(SDL_Event keysym);
 

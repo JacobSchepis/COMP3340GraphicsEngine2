@@ -16,8 +16,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "scripts/TestHelloWorld.h"
-
+#include "scripts/CameraController.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -116,8 +115,6 @@ void runRenderLoop(SDL_Window* window) {
     entity1.getComponent<Transform>()->position = glm::vec3(1, 1, 0);
     entity1.getComponent<Transform>()->updateModelMatrix();
 
-    entity.addComponent<TestHelloWorld>();
-
     renderer.queueMeshIntoBufferObject(meshPtr);
     renderer.queueMeshIntoBufferObject(meshPtr1);
 
@@ -131,10 +128,13 @@ void runRenderLoop(SDL_Window* window) {
 
     Entity camera = Entity();
     camera.addComponent<Camera>(60.0f, 4.0f / 3.0f, 0.1f, 20.0f);
+    camera.addComponent<CameraController>();
 
     Camera* camPtr = camera.getComponent<Camera>();
 
+
     Transform* transformPtr = camera.getComponent<Transform>();
+
 
     transformPtr->position = glm::vec3(0, 0, 5);
 
@@ -142,10 +142,13 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma endregion
 
+    MonobehaviorManager::Instance().awake();
+    MonobehaviorManager::Instance().start();
+
     while (running) {
         
-        InputManager::Instance().ProcessInputs();
-        if (InputManager::Instance().GetApplicationQuit())
+        InputManager::Instance().processInputs();
+        if (InputManager::Instance().getApplicationQuit())
             SDL_Quit();
 
         MonobehaviorManager::Instance().update();
@@ -155,9 +158,6 @@ void runRenderLoop(SDL_Window* window) {
         SDL_GL_SwapWindow(window);
     }
 }
-
-
-
 
 // Function to clean up SDL and OpenGL context
 void cleanup(SDL_Window* window, SDL_GLContext context) {

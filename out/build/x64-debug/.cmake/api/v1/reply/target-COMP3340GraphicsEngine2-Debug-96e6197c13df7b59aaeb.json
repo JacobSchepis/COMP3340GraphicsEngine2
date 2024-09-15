@@ -121,7 +121,8 @@
 				7,
 				8,
 				9,
-				10
+				10,
+				11
 			]
 		}
 	],
@@ -188,14 +189,14 @@
 				7,
 				8,
 				9,
-				10
+				10,
+				11
 			]
 		},
 		{
 			"name" : "Header Files",
 			"sourceIndexes" : 
 			[
-				11,
 				12,
 				13,
 				14,
@@ -207,7 +208,8 @@
 				20,
 				21,
 				22,
-				23
+				23,
+				24
 			]
 		}
 	],
@@ -259,6 +261,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/input/InputManager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/scripts/CameraController.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -341,7 +349,7 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "include/scripts/TestHelloWorld.h",
+			"path" : "include/scripts/CameraController.h",
 			"sourceGroupIndex" : 1
 		}
 	],

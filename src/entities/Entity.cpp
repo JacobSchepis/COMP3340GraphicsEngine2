@@ -3,6 +3,8 @@
 #include "components/Transform.h"
 #include "components/Monobehavior.h"
 
+#include "systems/MonobehaviorManager.h"
+
 Entity::Entity() 
 {
     addComponent<Transform>();

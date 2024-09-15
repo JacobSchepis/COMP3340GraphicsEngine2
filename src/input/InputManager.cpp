@@ -1,12 +1,14 @@
 #include "input/InputManager.h"
 
+#include <iostream>
+
 InputManager& InputManager::Instance()
 {
 	static InputManager inputManager;
 	return inputManager;
 }
 
-void InputManager::ProcessInputs()
+void InputManager::processInputs()
 {
 	SDL_Event evnt;
 
@@ -16,38 +18,46 @@ void InputManager::ProcessInputs()
 	{
 		switch (evnt.type)
 		{
-		case SDL_QUIT:
-			applicationQuit = true;
-			break;
+			case SDL_QUIT:
+				applicationQuit = true;
+				break;
 
-		case SDL_MOUSEMOTION:
-			mouseEvent = evnt.motion;
-			break;
-		case SDL_KEYDOWN:
-			ProcessKeyDownEvent(evnt);
+			case SDL_MOUSEMOTION:
+				mouseEvent = evnt.motion;
+				break;
+			case SDL_KEYDOWN:
+				ProcessKeyDownEvent(evnt);
 
 		}
 	}
+
+	int deltaX, deltaY;
+	SDL_GetRelativeMouseState(&deltaX, &deltaY);
+	mouseDelta = glm::vec2(deltaX, deltaY);
 }
 
-bool InputManager::GetApplicationQuit()
+bool InputManager::getApplicationQuit()
 {
 	return applicationQuit;
 }
 
-SDL_MouseMotionEvent* InputManager::GetMouseEvent()
+SDL_MouseMotionEvent* InputManager::getMouseEvent()
 {
 	return &mouseEvent;
 }
 
-glm::vec2* InputManager::GetwasdInputVector()
+glm::vec2& InputManager::getMouseDelta() {
+	return mouseDelta;
+}
+
+glm::vec2& InputManager::getWasdInputVector()
 {
-	return &wasdInputVector;
+	return wasdInputVector;
 }
 
 //private instance methods
 
-InputManager::InputManager() : mouseEvent(), applicationQuit(false), wasdInputVector(glm::vec2(0.0f))
+InputManager::InputManager() : mouseEvent(), applicationQuit(false), wasdInputVector(glm::vec2(0.0f)), mouseDelta(glm::vec2(0.0f))
 {
 
 }
@@ -73,6 +83,6 @@ void InputManager::ProcessKeyDownEvent(SDL_Event evnt)
 
 void InputManager::ResetInputValues()
 {
-	wasdInputVector.x = 0.0f;
-	wasdInputVector.y = 0.0f;
+	wasdInputVector = glm::vec2(0.0f);
+	mouseDelta = glm::vec2(0.0f);
 }
