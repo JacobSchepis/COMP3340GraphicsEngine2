@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include "entities/Entity.h"
 #include "IComponent.h"
 
 class Camera : public IComponent{
@@ -12,7 +11,7 @@ public:
     float farClip;
 
     // Constructor
-    Camera(Entity* parent, float fov, float aspectRatio, float nearClip, float farClip);
+    Camera(float fov, float aspectRatio, float nearClip, float farClip);
 
     // Get the View matrix (camera transformation)
     glm::mat4 getViewMatrix();

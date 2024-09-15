@@ -2,6 +2,9 @@
 
 #include "components/Transform.h"
 
-Entity::Entity() {
-	addComponent<Transform>(this);
+Entity::Entity() 
+{
+    addComponent<Transform>();
 }
+
+

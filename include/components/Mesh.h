@@ -4,12 +4,10 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "IComponent.h"
-#include "entities/Entity.h"
-
 
 class Mesh : public IComponent{
 public:
-	Mesh(Entity* parent, std::vector<float> vertices, std::vector<GLuint> indices);
+	Mesh(std::vector<float> vertices, std::vector<GLuint> indices);
 
 	~Mesh();
 

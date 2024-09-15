@@ -10,10 +10,11 @@
 #include "components/Transform.h"
 #include "components/Camera.h"
 
+#include "systems/MonobehaviorManager.h"
+
 #include "input/InputManager.h"
 
 #include <glm/gtc/matrix_transform.hpp>
-
 
 
 const int SCREEN_WIDTH = 800;
@@ -102,13 +103,16 @@ void runRenderLoop(SDL_Window* window) {
 
 
     Entity entity = Entity();
-    entity.addComponent<Mesh>(&entity, vertices, indices);
+    entity.addComponent<Mesh>(vertices, indices);
 
     Entity entity1 = Entity();
-    entity1.addComponent<Mesh>(&entity1, vertices, indices);
+    entity1.addComponent<Mesh>(vertices, indices);
 
     Mesh* meshPtr = entity.getComponent<Mesh>();
     Mesh* meshPtr1 = entity1.getComponent<Mesh>();
+
+    entity1.getComponent<Transform>()->position = glm::vec3(1, 1, 0);
+    entity1.getComponent<Transform>()->updateModelMatrix();
 
     renderer.queueMeshIntoBufferObject(meshPtr);
     renderer.queueMeshIntoBufferObject(meshPtr1);
@@ -122,7 +126,7 @@ void runRenderLoop(SDL_Window* window) {
 #pragma region Creating Camera
 
     Entity camera = Entity();
-    camera.addComponent<Camera>(&camera, 60.0f, 4.0f / 3.0f, 0.1f, 20.0f);
+    camera.addComponent<Camera>(60.0f, 4.0f / 3.0f, 0.1f, 20.0f);
 
     Camera* camPtr = camera.getComponent<Camera>();
 

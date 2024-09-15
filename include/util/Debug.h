@@ -3,7 +3,7 @@
 #include <GL/glew.h>
 #include <iostream>
 
-static class Debug {
+class Debug {
 public:
-    static void checkOpenGLError(const std::string& context);
+    void checkOpenGLError(const std::string& context);
 };

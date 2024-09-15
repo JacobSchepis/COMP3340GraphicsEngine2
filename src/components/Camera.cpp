@@ -3,8 +3,8 @@
 
 #include "components/Transform.h"
 
-Camera::Camera(Entity* parent, float fov, float aspectRatio, float nearClip, float farClip)
-    : IComponent(parent), fov(fov), aspectRatio(aspectRatio), nearClip(nearClip), farClip(farClip) {
+Camera::Camera(float fov, float aspectRatio, float nearClip, float farClip)
+    : fov(fov), aspectRatio(aspectRatio), nearClip(nearClip), farClip(farClip) {
 }
 
 glm::mat4 Camera::getViewMatrix() {

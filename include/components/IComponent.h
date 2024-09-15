@@ -6,7 +6,7 @@ class Entity;
 
 class IComponent {
 public:
-    IComponent(Entity* parent) : parent(parent) {};
+    IComponent() {};
 
     Entity* parent = nullptr;
 

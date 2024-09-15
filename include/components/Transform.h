@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IComponent.h"
-#include "entities/Entity.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,7 +13,7 @@ public:
 
     glm::mat4 model;
 
-    Transform(Entity* parent);
+    Transform();
 
     void updateModelMatrix();
 

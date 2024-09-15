@@ -57,9 +57,6 @@ void BufferObject::bufferData(std::vector<Mesh*>& meshes) {
     GLuint indexOffset = 0;   // Track the total number of indices processed
 
     for (Mesh* mesh : meshes) {
-
-        std::cout << "there's an object" << std::endl;
-
         // Get vertices and indices from the mesh
         const auto vertices = mesh->getVertices();
         const auto indices = mesh->getIndices();

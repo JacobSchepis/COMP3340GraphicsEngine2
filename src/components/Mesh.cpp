@@ -2,10 +2,8 @@
 
 #include <iostream>
 
-Mesh::Mesh(Entity* parent,
-	std::vector<float> vertices,
-	std::vector<GLuint> indices
-)	: IComponent(parent), m_startingIndex(0), vertices(vertices), indices(indices)
+Mesh::Mesh(std::vector<float> vertices, std::vector<GLuint> indices
+)	: m_startingIndex(0), vertices(vertices), indices(indices)
 {
 }
 
@@ -14,7 +12,6 @@ Mesh::~Mesh() {
 }
 
 std::vector<float> Mesh::getVertices() const {
-	std::cout << vertices[0] << std::endl;
 	return vertices;
 }
 std::vector<GLuint> Mesh::getIndices() const {
