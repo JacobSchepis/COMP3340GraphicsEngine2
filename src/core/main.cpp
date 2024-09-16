@@ -77,8 +77,6 @@ GLuint loadTextureFromFile(const std::string& path) {
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
 
-    std::cout << "something" << std::endl;
-
     int width, height, nrChannels;
     unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
     //std::cout << data << std::endl;
