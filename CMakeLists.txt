@@ -4,7 +4,6 @@
 project(COMP3340GraphicsEngine2 VERSION 1.0)
 
 # Set the C++ standard
-set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Include directories for your header files (GLEW, SDL, and your own headers)
