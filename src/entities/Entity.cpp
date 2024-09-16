@@ -1,7 +1,7 @@
 #include "entities/Entity.h"
 
 #include "components/Transform.h"
-#include "components/Monobehavior.h"
+#include "components/abstract/Monobehavior.hpp"
 
 #include "systems/MonobehaviorManager.h"
 

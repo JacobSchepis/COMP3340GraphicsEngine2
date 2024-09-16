@@ -1,9 +1,9 @@
 #include "graphics/Renderer.h"
 #include <GL/glew.h>
 
-#include <glm/glm.hpp>                  // Core GLM functionalities
-#include <glm/gtc/matrix_transform.hpp>  // For glm::perspective, glm::rotate, glm::translate, etc.
-#include <glm/gtc/type_ptr.hpp>          // For glm::value_ptr (to pass matrices to shaders)
+#include <glm/glm.hpp>                  
+#include <glm/gtc/matrix_transform.hpp> 
+#include <glm/gtc/type_ptr.hpp>          
 
 #include "components/Transform.h"
 #include <iostream>
@@ -35,20 +35,14 @@ void Renderer::render(Shader* shader) {
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-    for (BufferObject* bufferObject : m_bufferObjects)
-        bufferObject->draw(shader);
-}
-
-void Renderer::queueMeshIntoBufferObject(Mesh* mesh) {
-    m_meshToBufferObjectQueue.push_back(mesh);
-}
-
-void Renderer::pushMeshesToBuffer() {
-    BufferObject* newBufferObject = new BufferObject(m_meshToBufferObjectQueue);
-    m_bufferObjects.push_back(newBufferObject);
-    m_meshToBufferObjectQueue.clear();
+    for (MeshRenderer* meshRenderer : m_MeshRenderers)
+        meshRenderer->render(shader);
 }
 
 void Renderer::setActiveCamera(Camera* camera) {
     activeCamera = camera;
+}
+
+void Renderer::addMeshRenderer(MeshRenderer* meshRenderer) {
+    m_MeshRenderers.push_back(meshRenderer);
 }

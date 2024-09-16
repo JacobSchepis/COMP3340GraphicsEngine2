@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "shaders/Shader.h"
-#include "graphics/BufferObject.h"
+#include "components/rendering/MeshRenderer.h"
 #include "components/Camera.h"
 
 
@@ -13,16 +13,12 @@ public:
 
 	void render(Shader* shader);
 
-	void queueMeshIntoBufferObject(Mesh* mesh);
-
-	void pushMeshesToBuffer();
+	void addMeshRenderer(MeshRenderer* meshRenderer);
 
 	void setActiveCamera(Camera* camera);
 
 private:
-	std::vector<BufferObject*> m_bufferObjects;
-
-	std::vector<Mesh*> m_meshToBufferObjectQueue;
+	std::vector<MeshRenderer*> m_MeshRenderers;
 
 	Camera* activeCamera;
 };

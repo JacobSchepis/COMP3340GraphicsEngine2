@@ -1,6 +1,6 @@
 #pragma once
 
-#include "components/IComponent.h"
+#include "components/abstract/IComponent.hpp"
 
 class Monobehavior : public IComponent {
 public:

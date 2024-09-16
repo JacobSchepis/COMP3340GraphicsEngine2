@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#include "components/Mesh.h"
+#include "components/rendering/Mesh.hpp"
 #include "components/Transform.h"
 #include "components/Camera.h"
 
@@ -17,6 +17,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "scripts/CameraController.h"
+
+#include <SDL/SDL_opengl.h>
+#include <string>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -65,6 +72,29 @@ bool initSDL(SDL_Window** window, SDL_GLContext* context) {
     return true;
 }
 
+GLuint loadTextureFromFile(const std::string& path) {
+    GLuint textureId;
+    glGenTextures(1, &textureId);
+    glBindTexture(GL_TEXTURE_2D, textureId);
+
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+    //std::cout << data << std::endl;
+    if (data) {
+        GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+    }
+    else {
+        std::string failureReason = stbi_failure_reason();
+        std::cerr << "Failed to load texture: " << failureReason << std::endl;
+    }
+
+    stbi_image_free(data);
+    return textureId;
+}
+
 // Function to handle the render loop
 void runRenderLoop(SDL_Window* window) {
     bool running = true;
@@ -74,17 +104,19 @@ void runRenderLoop(SDL_Window* window) {
     Renderer renderer = Renderer();
 
 #pragma region Creating cubes
-    std::vector<float> vertices = {
-        // Positions         
-        -0.5f, -0.5f, -0.5f, // 0: Bottom-left-back
-         0.5f, -0.5f, -0.5f, // 1: Bottom-right-back
-         0.5f,  0.5f, -0.5f, // 2: Top-right-back
-        -0.5f,  0.5f, -0.5f, // 3: Top-left-back
-        -0.5f, -0.5f,  0.5f, // 4: Bottom-left-front
-         0.5f, -0.5f,  0.5f, // 5: Bottom-right-front
-         0.5f,  0.5f,  0.5f, // 6: Top-right-front
-        -0.5f,  0.5f,  0.5f  // 7: Top-left-front
+    std::vector<Vertex> vertices = {
+        // Position                 // Normal              // Texture Coordinates
+        {{-0.5f, -0.5f,  0.5f},     {0.0f,  0.0f,  1.0f},  {0.0f, 0.0f}}, // Front-bottom-left
+        {{ 0.5f, -0.5f,  0.5f},     {0.0f,  0.0f,  1.0f},  {1.0f, 0.0f}}, // Front-bottom-right
+        {{ 0.5f,  0.5f,  0.5f},     {0.0f,  0.0f,  1.0f},  {1.0f, 1.0f}}, // Front-top-right
+        {{-0.5f,  0.5f,  0.5f},     {0.0f,  0.0f,  1.0f},  {0.0f, 1.0f}}, // Front-top-left
+
+        {{-0.5f, -0.5f, -0.5f},     {0.0f,  0.0f, -1.0f},  {1.0f, 2.0f}}, // Back-bottom-left
+        {{ 0.5f, -0.5f, -0.5f},     {0.0f,  0.0f, -1.0f},  {2.0f, 1.0f}}, // Back-bottom-right
+        {{ 0.5f,  0.5f, -0.5f},     {0.0f,  0.0f, -1.0f},  {2.0f, 2.0f}}, // Back-top-right
+        {{-0.5f,  0.5f, -0.5f},     {0.0f,  0.0f, -1.0f},  {1.0f, 2.0f}}  // Back-top-left
     };
+
 
 
     std::vector<GLuint> indices = {
@@ -106,20 +138,19 @@ void runRenderLoop(SDL_Window* window) {
     Entity entity = Entity();
     entity.addComponent<Mesh>(vertices, indices);
 
-    Entity entity1 = Entity();
-    entity1.addComponent<Mesh>(vertices, indices);
+    auto* mesh = entity.getComponent<Mesh>();
+    mesh->setupMesh();
 
-    Mesh* meshPtr = entity.getComponent<Mesh>();
-    Mesh* meshPtr1 = entity1.getComponent<Mesh>();
+    entity.addComponent<Material>(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 0.0f);
+    entity.addComponent<Texture>(loadTextureFromFile(
+        "resources/images/GrassTexture.jpg"),
+        "resources/images/GrassTexture.jpg");
+    entity.addComponent<MeshRenderer>();
+    auto* meshRenderer = entity.getComponent<MeshRenderer>();
+    meshRenderer->setup();
 
-    entity1.getComponent<Transform>()->position = glm::vec3(1, 1, 0);
-    entity1.getComponent<Transform>()->updateModelMatrix();
+    renderer.addMeshRenderer(meshRenderer);
 
-    renderer.queueMeshIntoBufferObject(meshPtr);
-    renderer.queueMeshIntoBufferObject(meshPtr1);
-
-
-    renderer.pushMeshesToBuffer();
 
 #pragma endregion
   
@@ -144,6 +175,8 @@ void runRenderLoop(SDL_Window* window) {
 
     MonobehaviorManager::Instance().awake();
     MonobehaviorManager::Instance().start();
+
+    glEnable(GL_DEPTH_TEST);
 
     while (running) {
         

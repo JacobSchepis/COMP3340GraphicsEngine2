@@ -16,8 +16,33 @@ include_directories("${PROJECT_SOURCE_DIR}/include/SDL2")
 file(GLOB_RECURSE SOURCES "${PROJECT_SOURCE_DIR}/src/**/*.cpp")
 
 # Add the executable and link it to the source files
-add_executable(COMP3340GraphicsEngine2 ${SOURCES} "include/shaders/Vertex.h"   "include/graphics/Renderer.h" "src/graphics/Renderer.cpp" "include/components/Mesh.h"   "include/graphics/BufferObject.h" "src/graphics/BufferObject.cpp" "include/components/Camera.h" "src/components/Camera.cpp" "src/input/InputManager.cpp" "include/input/InputManager.h" "include/components/IComponent.h" "include/components/Transform.h"  "include/entities/Entity.h" "src/components/Mesh.cpp" "src/components/Transform.cpp" "src/entities/Entity.cpp" "src/util/Debug.cpp" "include/util/Debug.h" "include/components/Monobehavior.h"  "include/systems/MonobehaviorManager.h" "src/systems/MonobehaviorManager.cpp"  "include/scripts/CameraController.h" "src/scripts/CameraController.cpp")
+add_executable(COMP3340GraphicsEngine2 ${SOURCES} 
+"include/graphics/Vertex.hpp"
 
+"include/graphics/Renderer.h" "src/graphics/Renderer.cpp" 
+  
+
+"include/components/abstract/Monobehavior.hpp"  
+"include/components/abstract/IComponent.hpp" 
+
+"include/components/rendering/Mesh.hpp" 
+"include/components/rendering/Material.hpp"  
+"include/components/rendering/Texture.hpp" 
+"include/components/rendering/MeshRenderer.h"  "src/components/rendering/MeshRenderer.cpp"
+
+"include/components/Camera.h" "src/components/Camera.cpp"
+"include/components/Transform.h"  "src/components/Transform.cpp" 
+
+"include/entities/Entity.h"  "src/entities/Entity.cpp" 
+
+"include/systems/MonobehaviorManager.h" "src/systems/MonobehaviorManager.cpp" 
+
+"include/scripts/CameraController.h" "src/scripts/CameraController.cpp" 
+
+"include/input/InputManager.h" "src/input/InputManager.cpp"
+
+"include/util/Debug.h" "src/util/Debug.cpp"  
+)
 # Link OpenGL (use opengl32.lib directly for Windows)
 if(WIN32)
     target_link_libraries(COMP3340GraphicsEngine2 opengl32.lib)
@@ -36,3 +61,4 @@ endif()
 
 # Copy shaders to the build directory (optional if you have shaders)
 file(COPY ${CMAKE_SOURCE_DIR}/shaders DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/resources DESTINATION ${CMAKE_BINARY_DIR})

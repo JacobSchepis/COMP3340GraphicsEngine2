@@ -3,9 +3,9 @@
 #include <memory>
 #include <vector>
 
-#include "components/IComponent.h"
+#include "components/abstract/IComponent.hpp"
 
-class IComponent;
+struct IComponent;
 
 class Entity {
 private:

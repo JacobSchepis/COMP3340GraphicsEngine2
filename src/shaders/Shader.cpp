@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <glm/gtc/type_ptr.hpp>
 
 Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
@@ -89,4 +90,29 @@ void Shader::CheckCompileErrors(GLuint shader, std::string type)
 void Shader::Use()
 {
     glUseProgram(Program);
+}
+
+// Utility function to set a uniform int in the shader
+void Shader::setInt(const std::string& name, int value) const {
+    glUniform1i(glGetUniformLocation(Program, name.c_str()), value);
+}
+
+// Utility function to set a uniform float in the shader
+void Shader::setFloat(const std::string& name, float value) const {
+    glUniform1f(glGetUniformLocation(Program, name.c_str()), value);
+}
+
+// Utility function to set a uniform vec3 in the shader
+void Shader::setVec3(const std::string& name, const glm::vec3& value) const {
+    glUniform3fv(glGetUniformLocation(Program, name.c_str()), 1, glm::value_ptr(value));
+}
+
+// Utility function to set a uniform vec3 with individual components
+void Shader::setVec3(const std::string& name, float x, float y, float z) const {
+    glUniform3f(glGetUniformLocation(Program, name.c_str()), x, y, z);
+}
+
+void Shader::setMat4(const std::string& name, const glm::mat4& value) const{
+    GLuint loc = glGetUniformLocation(Program, name.c_str());
+    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
 }

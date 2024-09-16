@@ -4,8 +4,7 @@
 
 class Entity;
 
-class IComponent {
-public:
+struct IComponent {
     IComponent() {};
 
     Entity* parent = nullptr;

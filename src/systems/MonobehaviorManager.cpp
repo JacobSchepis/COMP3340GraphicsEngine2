@@ -1,6 +1,6 @@
 #include "systems/MonobehaviorManager.h"
 
-#include "components/Monobehavior.h"
+#include "components/abstract/Monobehavior.hpp"
 
 MonobehaviorManager& MonobehaviorManager::Instance()
 {

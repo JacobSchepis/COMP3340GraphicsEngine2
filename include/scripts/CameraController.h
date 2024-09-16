@@ -1,6 +1,6 @@
 #pragma once
 
-#include "components/Monobehavior.h"
+#include "components/abstract/Monobehavior.hpp"
 #include "components/Transform.h"
 
 #include <memory>
