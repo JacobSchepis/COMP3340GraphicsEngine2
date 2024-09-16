@@ -1,3 +1,0 @@
-C:/Users/jsche/source/repos/COMP3340GraphicsEngine2/out/build/x64-debug/CMakeFiles/COMP3340GraphicsEngine2.dir
-C:/Users/jsche/source/repos/COMP3340GraphicsEngine2/out/build/x64-debug/CMakeFiles/edit_cache.dir
-C:/Users/jsche/source/repos/COMP3340GraphicsEngine2/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
