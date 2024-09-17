@@ -41,7 +41,7 @@ add_executable(COMP3340GraphicsEngine2 ${SOURCES}
 "include/input/InputManager.h" "src/input/InputManager.cpp"
 
 "include/util/Debug.h" "src/util/Debug.cpp"  
-)
+ "include/components/rendering/Model.h")
 # Link OpenGL (use opengl32.lib directly for Windows)
 if(WIN32)
     target_link_libraries(COMP3340GraphicsEngine2 opengl32.lib)

@@ -5,7 +5,7 @@
 #include <GL/glew.h>
 #include <string>
 
-struct Texture : public IComponent {
+struct Texture {
 	GLuint id;
 	std::string filePath;
 

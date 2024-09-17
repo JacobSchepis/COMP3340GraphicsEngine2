@@ -7,7 +7,7 @@
 #include <graphics/Vertex.hpp>
 
 
-struct Mesh : public IComponent {
+struct Mesh {
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 
