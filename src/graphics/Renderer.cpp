@@ -29,20 +29,24 @@ void Renderer::render(Shader* shader) {
 
     shader->Use();
 
-    GLuint viewLoc = glGetUniformLocation(shader->Program, "view");
-    GLuint projLoc = glGetUniformLocation(shader->Program, "projection");
+    shader->setVec3("light.direction", glm::vec3(-0.2f, -1.0f, -0.3f)); // Example direction
+    shader->setVec3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));      // Low ambient light
+    shader->setVec3("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));      // Diffuse light
+    shader->setVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));     // Bright specular highlight
 
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    shader->setVec3("viewPos", activeCamera->parent->getComponent<Transform>()->position);  // Camera position
 
-    for (MeshRenderer* meshRenderer : m_MeshRenderers)
-        meshRenderer->render(shader);
+    shader->setMat4("view", view);
+    shader->setMat4("projection", projection);
+
+    for (Model* model: m_Models)
+        model->Draw(shader);
 }
 
 void Renderer::setActiveCamera(Camera* camera) {
     activeCamera = camera;
 }
 
-void Renderer::addMeshRenderer(MeshRenderer* meshRenderer) {
-    m_MeshRenderers.push_back(meshRenderer);
+void Renderer::addModel(Model* model) {
+    m_Models.push_back(model);
 }
