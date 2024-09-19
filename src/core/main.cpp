@@ -83,7 +83,7 @@ void runRenderLoop(SDL_Window* window) {
 
     Entity newEntity = Entity();
 
-    char* filePath = "../../../resources/models/backpack.obj";
+    char* filePath = "../../../resources/models/buildings/buldings.obj";
     newEntity.addComponent<Model>(filePath);
 
     Model* model = newEntity.getComponent<Model>();
@@ -93,7 +93,7 @@ void runRenderLoop(SDL_Window* window) {
 #pragma region Creating Camera
 
     Entity camera = Entity();
-    camera.addComponent<Camera>(60.0f, 4.0f / 3.0f, 0.1f, 20.0f);
+    camera.addComponent<Camera>(60.0f, 4.0f / 3.0f, 0.1f, 1000.0f);
     camera.addComponent<CameraController>();
 
     Camera* camPtr = camera.getComponent<Camera>();
@@ -102,7 +102,7 @@ void runRenderLoop(SDL_Window* window) {
     Transform* transformPtr = camera.getComponent<Transform>();
 
 
-    transformPtr->position = glm::vec3(0, 0, 5);
+    transformPtr->position = glm::vec3(0, 10, 0);
 
     renderer.setActiveCamera(camPtr);
 
