@@ -17,6 +17,8 @@ struct Mesh {
 		: vertices(vertices), indices(indices), VAO(0), VBO(0), EBO(0)
 	{}
 
+    Mesh() {}
+
 	~Mesh() {}
 
     void setupMesh() {

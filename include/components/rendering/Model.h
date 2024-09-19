@@ -2,32 +2,29 @@
 
 #include "components/abstract/IComponent.hpp"
 
-#include "graphics/Material.hpp"
-#include "graphics/Mesh.hpp"
-#include "graphics/Texture.hpp"
-
-#include "components/Transform.h"
 #include "shaders/Shader.h"
+#include "graphics/MeshRenderer.h"
 
-struct RenderObject {
-	Transform transform;
-	Mesh mesh;
-	Material material;
-	Texture texture;
-};
+#include <vector>
+#include <string>
 
-class Model : public IComponent {
+#include <assimp/scene.h>
+
+class Model : public IComponent
+{
 public:
-	Model();
-
-	~Model();
-
-	void loadModel(std::string dir);
-	void draw(Shader* shader);
-
+    Model(char* path)
+    {
+        loadModel(path);
+    }
+    void Draw(Shader* shader);
 private:
-	std::vector<RenderObject> meshes;
-	std::string directory;
+    // model data
+    std::vector<MeshRenderer> meshRenderersVector;
+    std::string directory;
 
-
+    void loadModel(std::string path);
+    void processNode(aiNode* node, const aiScene* scene);
+    MeshRenderer processMesh(aiMesh* mesh, const aiScene* scene);
+    std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 };

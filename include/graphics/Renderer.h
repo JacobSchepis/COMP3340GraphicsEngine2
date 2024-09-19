@@ -2,8 +2,8 @@
 
 #include <vector>
 #include "shaders/Shader.h"
-#include "components/rendering/MeshRenderer.h"
 #include "components/Camera.h"
+#include "components/rendering/Model.h"
 
 
 class Renderer {
@@ -13,12 +13,12 @@ public:
 
 	void render(Shader* shader);
 
-	void addMeshRenderer(MeshRenderer* meshRenderer);
+	void addModel(Model* model);
 
 	void setActiveCamera(Camera* camera);
 
 private:
-	std::vector<MeshRenderer*> m_MeshRenderers;
+	std::vector<Model*> m_Models;
 
 	Camera* activeCamera;
 };

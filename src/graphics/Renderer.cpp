@@ -35,14 +35,14 @@ void Renderer::render(Shader* shader) {
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-    for (MeshRenderer* meshRenderer : m_MeshRenderers)
-        meshRenderer->render(shader);
+    for (Model* model: m_Models)
+        model->Draw(shader);
 }
 
 void Renderer::setActiveCamera(Camera* camera) {
     activeCamera = camera;
 }
 
-void Renderer::addMeshRenderer(MeshRenderer* meshRenderer) {
-    m_MeshRenderers.push_back(meshRenderer);
+void Renderer::addModel(Model* model) {
+    m_Models.push_back(model);
 }
