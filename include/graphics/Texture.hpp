@@ -14,7 +14,7 @@ struct Texture {
 
     void loadTextureFromFile(const std::string& path) {
 
-        std::string filePath = "../../../resources/models/buildings/" + path;
+        std::string filePath = "../../../resources/models/backpack/" + path;
 
         GLuint textureId;
         glGenTextures(1, &textureId);

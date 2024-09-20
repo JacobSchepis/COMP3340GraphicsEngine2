@@ -68,27 +68,34 @@ bool initSDL(SDL_Window** window, SDL_GLContext* context) {
     // Set the viewport
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+    glEnable(GL_DEPTH_TEST);
+    stbi_set_flip_vertically_on_load(true);
+
+
     return true;
 }
 
-// Function to handle the render loop
 void runRenderLoop(SDL_Window* window) {
-    bool running = true;
-    SDL_Event event;
 
-    stbi_set_flip_vertically_on_load(true);
+#pragma region shader creation
 
     Shader* shader = new Shader("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
     Renderer renderer = Renderer();
 
+#pragma endregion
+
+#pragma region creating entity
+
     Entity newEntity = Entity();
 
-    char* filePath = "../../../resources/models/buildings/buldings.obj";
+    char* filePath = "../../../resources/models/backpack/backpack.obj";
     newEntity.addComponent<Model>(filePath);
 
     Model* model = newEntity.getComponent<Model>();
 
     renderer.addModel(model);
+
+#pragma endregion
 
 #pragma region Creating Camera
 
@@ -102,7 +109,7 @@ void runRenderLoop(SDL_Window* window) {
     Transform* transformPtr = camera.getComponent<Transform>();
 
 
-    transformPtr->position = glm::vec3(0, 10, 0);
+    transformPtr->position = glm::vec3(0, 1, 0);
 
     renderer.setActiveCamera(camPtr);
 
@@ -111,7 +118,8 @@ void runRenderLoop(SDL_Window* window) {
     MonobehaviorManager::Instance().awake();
     MonobehaviorManager::Instance().start();
 
-    glEnable(GL_DEPTH_TEST);
+    bool running = true;
+    SDL_Event event;
 
     while (running) {
         
