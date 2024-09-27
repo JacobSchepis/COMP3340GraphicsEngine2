@@ -41,10 +41,9 @@ public:
     Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
         : type(type), ambient(ambient), diffuse(diffuse), specular(specular) {
         
-		// 初始化光照类型的默认值 initialise the default of light scource
+		// initialise the default of light source
         if (type == DIRECTIONAL) {
              direction = glm::vec3(1.0f, -1.0f, 0.0f);
-            //direction = glm::vec3(-0.2f, -1.0f, -0.3f);
         } else if (type == POINT) {
             position = glm::vec3(0.0f, 1.0f, 0.0f);
             constant = 1.0f;
