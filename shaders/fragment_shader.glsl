@@ -13,7 +13,7 @@ struct Light {
 };
 
 uniform Material material;
-uniform Light light;
+uniform Light light[NUM_LIGHTS];        // for multiple light scources
 uniform vec3 viewPos;
 
 in vec3 FragPos;
@@ -22,21 +22,27 @@ in vec2 TexCoords;
 
 void main()
 {
-    // Ambient lighting
-    vec3 ambient = light.ambient * texture(material.diffuseTexture, TexCoords).rgb;
-    
-    // Diffuse lighting
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(-light.direction); // Directional light assumes direction, not position
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * diff * texture(material.diffuseTexture, TexCoords).rgb;
-    
-    // Specular lighting (Phong model)
     vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = light.specular * spec; // Assuming a white specular highlight
+    vec3 result = vec3(0.0); // initialise result
+
+    for (int i = 0; i < NUM_LIGHTS; ++i) { // Iterate over all light sources
+        // Ambient lighting
+        vec3 ambient = light[i].ambient * texture(material.diffuseTexture, TexCoords).rgb;
+        
+        // Diffuse lighting
+        vec3 lightDir = normalize(-light[i].direction); // Directional light assumes direction, not position
+        float diff = max(dot(norm, lightDir), 0.0);
+        vec3 diffuse = light[i].diffuse * diff * texture(material.diffuseTexture, TexCoords).rgb;
+        
+        // Specular lighting (Phong model)
+        vec3 reflectDir = reflect(-lightDir, norm);  
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+        vec3 specular = light[i].specular * spec; // Assuming a white specular highlight
+
+        // Sum the contribution of each light source
+        result += ambient + diffuse + specular;
+    }
     
-    vec3 result = ambient + diffuse + specular;
     FragColor = vec4(result, 1.0);
 }

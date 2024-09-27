@@ -17,6 +17,8 @@
 
 #include "scripts/CameraController.h"
 
+#include "components/rendering/Light.hpp"
+
 #include <SDL/SDL_opengl.h>
 #include <string>
 
@@ -97,6 +99,14 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma endregion
 
+#pragma region creating lightSource entity
+
+    Entity lightSource = Entity();
+    //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
+    lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f));
+
+#pragma endregion
+
 #pragma region Creating Camera
 
     Entity camera = Entity();
@@ -150,6 +160,12 @@ int main(int argc, char* argv[]) {
         std::cerr << "Failed to initialize" << std::endl;
         return -1;
     }
+
+    // Implement the Light
+    Light* light = lightSource.getComponent<Light>();
+if (light) {
+    light->applyLightToShader(*shader, "light[0]");
+}
 
     runRenderLoop(window);
     cleanup(window, context);
