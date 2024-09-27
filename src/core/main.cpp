@@ -102,6 +102,7 @@ void runRenderLoop(SDL_Window* window) {
 #pragma region creating lightSource entity
 
     Entity lightSource = Entity();
+    //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
     lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f));
 
 #pragma endregion
@@ -138,6 +139,12 @@ void runRenderLoop(SDL_Window* window) {
 
         MonobehaviorManager::Instance().update();
 
+        // Implement the Light
+        Light* light = lightSource.getComponent<Light>();
+        if (light) {
+            light->applyLightToShader(*shader, "light[0]");
+        }
+
         renderer.render(shader);
 
         SDL_GL_SwapWindow(window);
@@ -159,12 +166,6 @@ int main(int argc, char* argv[]) {
         std::cerr << "Failed to initialize" << std::endl;
         return -1;
     }
-
-    // Implement the Light
-    Light* light = lightSource.getComponent<Light>();
-if (light) {
-    light->applyLightToShader(*shader, "light[0]");
-}
 
     runRenderLoop(window);
     cleanup(window, context);
