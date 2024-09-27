@@ -1,6 +1,8 @@
 #version 330 core
 out vec4 FragColor;
 
+#define NUM_LIGHTS 1 // define number of light source
+
 struct Material {
     sampler2D diffuseTexture;
 };
