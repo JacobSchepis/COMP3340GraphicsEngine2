@@ -14,7 +14,9 @@ struct Texture {
 
     void loadTextureFromFile(const std::string& path) {
 
-        std::string filePath = "../../../resources/models/backpack/" + path;
+        std::cout << "Texture Path: " << path << std::endl;
+
+        std::string filePath = "../../../resources/models/cup/diffuse.png" + path;
 
         GLuint textureId;
         glGenTextures(1, &textureId);
@@ -22,7 +24,7 @@ struct Texture {
 
         int width, height, nrChannels;
         unsigned char* data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
-        std::cout << filePath << std::endl;
+
         if (data) {
             GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
             glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);

@@ -64,6 +64,9 @@ bool initSDL(SDL_Window** window, SDL_GLContext* context) {
         return false;
     }
 
+    glDisable(GL_CULL_FACE);  // Disable face culling to see if this fixes the issue
+
+
     // Enable V-sync
     SDL_GL_SetSwapInterval(1);
 
@@ -81,7 +84,7 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma region shader creation
 
-    Shader* shader = new Shader("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
+    Shader* shader = new Shader("shaders/vertex_shader.glsl", "shaders/fragment_test.glsl");
     Renderer renderer = Renderer();
 
 #pragma endregion
@@ -90,7 +93,7 @@ void runRenderLoop(SDL_Window* window) {
 
     Entity newEntity = Entity();
 
-    char* filePath = "../../../resources/models/backpack/backpack.obj";
+    char* filePath = "../../../resources/models/cup/model.obj";
     newEntity.addComponent<Model>(filePath);
 
     Model* model = newEntity.getComponent<Model>();

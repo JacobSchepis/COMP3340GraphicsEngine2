@@ -12,9 +12,12 @@ struct Material {
     Texture* diffuseTexture;
     Texture* specularTexture;
 
+    bool hasDiffuseTexture;
+    bool hasSpecularTexture;
+
     Material(const glm::vec3& diffuse, const glm::vec3& specular, float shininess)
         : diffuseColor(diffuse), specularColor(specular), shininess(shininess),
         diffuseTexture(nullptr), specularTexture(nullptr) {}
 
-    Material(){}
+    Material() {}
 };

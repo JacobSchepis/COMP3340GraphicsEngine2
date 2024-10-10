@@ -36,9 +36,11 @@ void CameraController::applyMovement()
     // inputVector.x controls left/right movement (A/D keys)
     glm::vec2 moveDirection = lookDirectionCartesian * inputVector.y + rightDirectionCartesian * -inputVector.x;
 
+    int verticalMovement = InputManager::Instance().getVerticalInput();
+
     // Apply the movement (assuming deltaTime is available for smooth movement)
     // float deltaTime = Time::GetDeltaTime();  // Assuming a delta time function exists
-    transform->position += glm::vec3(moveDirection.x, 0.0f, moveDirection.y);
+    transform->position += glm::vec3(moveDirection.x, verticalMovement, moveDirection.y);
 }
 
 void CameraController::applyRotation() {

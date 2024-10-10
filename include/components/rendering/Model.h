@@ -13,9 +13,9 @@
 class Model : public IComponent
 {
 public:
-    Model(char* path)
+    Model(char* modelPath)
     {
-        loadModel(path);
+        loadModel(modelPath);
     }
     void Draw(Shader* shader);
 private:
@@ -23,8 +23,8 @@ private:
     std::vector<MeshRenderer> meshRenderersVector;
     std::string directory;
 
-    void loadModel(std::string path);
+    void loadModel(std::string modelPath);
     void processNode(aiNode* node, const aiScene* scene);
-    MeshRenderer processMesh(aiMesh* mesh, const aiScene* scene);
+    std::vector<MeshRenderer> processMesh(aiMesh* mesh, const aiScene* scene);
     std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 };

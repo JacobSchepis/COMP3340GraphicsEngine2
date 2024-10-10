@@ -25,6 +25,8 @@ public:
 
     void setMat4(const std::string& name, const glm::mat4& value) const;
 
+    void setBool(const std::string& name, const bool value) const;
+
 private:
     std::string LoadShaderSource(const std::string& filePath);
     void CheckCompileErrors(GLuint shader, std::string type);

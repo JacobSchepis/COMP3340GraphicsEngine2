@@ -19,8 +19,6 @@ struct Mesh {
         setupMesh();
     }
 
-    Mesh() {}
-
 	~Mesh() {}
 
     void setupMesh() {

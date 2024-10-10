@@ -42,14 +42,18 @@ public:
         : type(type), ambient(ambient), diffuse(diffuse), specular(specular) {
         
 		// initialise the default of light source
-        if (type == DIRECTIONAL) {
+        if (type == LightType::DIRECTIONAL) {
              direction = glm::vec3(1.0f, -1.0f, 0.0f);
-        } else if (type == POINT) {
+        } 
+        
+        else if (type == LightType::POINT) {
             position = glm::vec3(0.0f, 1.0f, 0.0f);
             constant = 1.0f;
             linear = 0.09f;
             quadratic = 0.032f;
-        } else if (type == SPOTLIGHT) {
+        } 
+        
+        else if (type == LightType::SPOTLIGHT) {
             spotDirection = glm::vec3(0.0f, -1.0f, 0.0f);
             cutOff = glm::cos(glm::radians(12.5f));
             outerCutOff = glm::cos(glm::radians(15.0f));

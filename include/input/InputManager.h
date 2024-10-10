@@ -21,6 +21,8 @@ public:
 
 	glm::vec2& getWasdInputVector();
 
+	int getVerticalInput();
+
 private:
 	InputManager();
 
@@ -30,6 +32,7 @@ private:
 
 	glm::vec2 wasdInputVector;
 	glm::vec2 mouseDelta;
+	int verticalInput;
 
 	void ProcessKeyDownEvent(SDL_Event keysym);
 

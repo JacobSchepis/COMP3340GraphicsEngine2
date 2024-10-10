@@ -55,9 +55,14 @@ glm::vec2& InputManager::getWasdInputVector()
 	return wasdInputVector;
 }
 
+int InputManager::getVerticalInput() {
+	return verticalInput;
+}
+
 //private instance methods
 
-InputManager::InputManager() : mouseEvent(), applicationQuit(false), wasdInputVector(glm::vec2(0.0f)), mouseDelta(glm::vec2(0.0f))
+InputManager::InputManager() : 
+	mouseEvent(), applicationQuit(false), wasdInputVector(glm::vec2(0.0f)), mouseDelta(glm::vec2(0.0f)), verticalInput(0)
 {
 
 }
@@ -66,23 +71,34 @@ void InputManager::ProcessKeyDownEvent(SDL_Event evnt)
 {
 	switch (evnt.key.keysym.sym)
 	{
-	case SDLK_UP:
+	case SDLK_w:
 		wasdInputVector.y += 1.0f;
 		break;
-	case SDLK_DOWN:
+	case SDLK_s:
 		wasdInputVector.y -= 1.0f;
 		break;
-	case SDLK_RIGHT:
+	case SDLK_d:
 		wasdInputVector.x += 1.0f;
 		break;
-	case SDLK_LEFT:
+	case SDLK_a:
 		wasdInputVector.x -= 1.0f;
 		break;
+
+	case SDLK_SPACE:
+		verticalInput += 1;
+		break;
+
+	case SDLK_LCTRL:
+		verticalInput -= 1;
+		break;
 	}
+
+	
 }
 
 void InputManager::ResetInputValues()
 {
 	wasdInputVector = glm::vec2(0.0f);
 	mouseDelta = glm::vec2(0.0f);
+	verticalInput = 0;
 }

@@ -10,12 +10,16 @@ void Light::applyLightToShader(Shader& shader, const std::string& uniformName) {
     // Setting the specific arribute based on type of light source
     if (type == DIRECTIONAL) {
         shader.setVec3(uniformName + ".direction", direction);
-    } else if (type == POINT) {
+    } 
+    
+    else if (type == POINT) {
         shader.setVec3(uniformName + ".position", position);
         shader.setFloat(uniformName + ".constant", constant);
         shader.setFloat(uniformName + ".linear", linear);
         shader.setFloat(uniformName + ".quadratic", quadratic);
-    } else if (type == SPOTLIGHT) {
+    } 
+    
+    else if (type == SPOTLIGHT) {
         shader.setVec3(uniformName + ".position", position);
         shader.setVec3(uniformName + ".spotDirection", spotDirection);
         shader.setFloat(uniformName + ".cutOff", cutOff);
