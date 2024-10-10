@@ -6,11 +6,12 @@ void Light::applyLightToShader(Shader& shader, const std::string& uniformName) {
     shader.setVec3(uniformName + ".ambient", ambient);
     shader.setVec3(uniformName + ".diffuse", diffuse);
     shader.setVec3(uniformName + ".specular", specular);
+    shader.setFloat(uniformName + ".intensity", intensity);
 
     // Setting the specific arribute based on type of light source
     if (type == DIRECTIONAL) {
         shader.setVec3(uniformName + ".direction", direction);
-    } 
+    }
     
     else if (type == POINT) {
         shader.setVec3(uniformName + ".position", position);

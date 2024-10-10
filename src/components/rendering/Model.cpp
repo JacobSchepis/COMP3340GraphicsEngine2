@@ -106,7 +106,7 @@ std::vector<MeshRenderer> Model::processMesh(aiMesh* mesh, const aiScene* scene)
         if (AI_SUCCESS == aiMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, color))
         {
             material.diffuseColor = glm::vec3(color.r, color.g, color.b);  // Set base color
-            std::cout << "Diffuse Color: " << color.r << " " << color.g << " " << color.b << std::endl;
+            //std::cout << "Diffuse Color: " << color.r << " " << color.g << " " << color.b << std::endl;
         }
 
         // Load diffuse texture
@@ -119,7 +119,7 @@ std::vector<MeshRenderer> Model::processMesh(aiMesh* mesh, const aiScene* scene)
             material.hasDiffuseTexture = false;
         }
 
-        std::cout << "Diffuse Texture = " << material.hasDiffuseTexture << std::endl;
+        //std::cout << "Diffuse Texture = " << material.hasDiffuseTexture << std::endl;
 
         // Load specular color or texture
         if (AI_SUCCESS == aiMaterial->Get(AI_MATKEY_COLOR_SPECULAR, color))
@@ -137,7 +137,7 @@ std::vector<MeshRenderer> Model::processMesh(aiMesh* mesh, const aiScene* scene)
             material.hasSpecularTexture = false;
         }
 
-        std::cout << "Specular Texture = " << material.hasSpecularTexture << std::endl;
+        //std::cout << "Specular Texture = " << material.hasSpecularTexture << std::endl;
 
         // Load shininess
         float shininess;

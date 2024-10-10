@@ -21,6 +21,7 @@ class Light :public IComponent {
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;
+    float intensity;
 
 	// Attributes for directional light
     glm::vec3 direction;
@@ -38,9 +39,9 @@ class Light :public IComponent {
 
 public:
 	// constructor
-    Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
-        : type(type), ambient(ambient), diffuse(diffuse), specular(specular) {
-        
+    Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float intensity)
+        : type(type), ambient(ambient), diffuse(diffuse), specular(specular), intensity(intensity) 
+    {
 		// initialise the default of light source
         if (type == LightType::DIRECTIONAL) {
              direction = glm::vec3(1.0f, -1.0f, 0.0f);

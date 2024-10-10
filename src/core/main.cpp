@@ -93,12 +93,14 @@ void runRenderLoop(SDL_Window* window) {
 
     Entity newEntity = Entity();
 
-    char* filePath = "../../../resources/models/cup/model.obj";
+    char* filePath = "../../../resources/models/house/model.obj";
     newEntity.addComponent<Model>(filePath);
 
     Model* model = newEntity.getComponent<Model>();
 
     renderer.addModel(model);
+
+    newEntity.getComponent<Transform>()->position = glm::vec3(0.0f, 2.0f, 0.0f);
 
 #pragma endregion
 
@@ -106,7 +108,7 @@ void runRenderLoop(SDL_Window* window) {
 
     Entity lightSource = Entity();
     //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
-    lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f));
+    lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 3.0f);
 
 #pragma endregion
 
