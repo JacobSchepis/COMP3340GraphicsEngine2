@@ -103,7 +103,7 @@ void runRenderLoop(SDL_Window* window) {
 
     Entity lightSource = Entity();
     //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
-    lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f));
+    lightSource.addComponent<Light>("DIRECTIONAL", glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f));
 
 #pragma endregion
 
@@ -142,7 +142,10 @@ void runRenderLoop(SDL_Window* window) {
         // Implement the Light
         Light* light = lightSource.getComponent<Light>();
         if (light) {
-            light->applyLightToShader(*shader, "light[0]");
+            float currentTime = SDL_GetTicks() / 1000.0f; // time
+            light->updateLightDirection(currentTime);  // Dynamically update light source direction
+
+            light->applyLightToShader(*shader, "light");
         }
 
         renderer.render(shader);

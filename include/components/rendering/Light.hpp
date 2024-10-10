@@ -3,19 +3,20 @@
 #include "components/abstract/IComponent.hpp"
 #include <glm/glm.hpp>
 #include <string>
+#include <iostream>
 
 
 // Enumeration of light source types
-enum LightType {
-    DIRECTIONAL,
-    POINT,
-    SPOTLIGHT
-};
+//enum LightType {
+//    DIRECTIONAL,
+//    POINT,
+//    SPOTLIGHT
+//};
 
 class Light :public IComponent {
-
 	// type of light source
-	LightType type;
+	//LightType type;
+    int type;  // (0: DIRECTIONAL, 1: POINT, 2: SPOTLIGHT)
 
 	// attribute
     glm::vec3 ambient;
@@ -38,21 +39,37 @@ class Light :public IComponent {
 
 public:
 	// constructor
-    Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
-        : type(type), ambient(ambient), diffuse(diffuse), specular(specular) {
+    Light(const std::string& typeStr, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
+        : ambient(ambient), diffuse(diffuse), specular(specular) {
         
 		// initialise the default of light source
-        if (type == DIRECTIONAL) {
-             direction = glm::vec3(1.0f, -1.0f, 0.0f);
-        } else if (type == POINT) {
+        if (typeStr == "DIRECTIONAL") {
+            type = 0;
+            //direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+            direction = glm::vec3(1.0f, 0.0f, 0.0f);
+        } else if (typeStr == "POINT") {
+            type = 1;
             position = glm::vec3(0.0f, 1.0f, 0.0f);
             constant = 1.0f;
             linear = 0.09f;
             quadratic = 0.032f;
-        } else if (type == SPOTLIGHT) {
+        } else if (typeStr == "SPOTLIGHT") {
+            type = 2;
             spotDirection = glm::vec3(0.0f, -1.0f, 0.0f);
             cutOff = glm::cos(glm::radians(12.5f));
             outerCutOff = glm::cos(glm::radians(15.0f));
+        }
+    }
+
+    // Add an update function to dynamically adjust the light direction
+    // Only update for directional light
+    void updateLightDirection(float time) {
+        if (type == 0) {
+            // Control the speed of the sun's movement, 0.5f is the speed ratio 
+            // according to the angle of change over time, 0.1f is the proportional factor that controls the rotation speed
+            float angle = time * 0.5f;
+            //Rotate the light in the XZ plane
+            direction = glm::vec3(cos(angle), sin(angle), 0.0f);
         }
     }
 
