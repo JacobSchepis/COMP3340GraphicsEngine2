@@ -90,7 +90,7 @@ void runRenderLoop(SDL_Window* window) {
 
     Entity newEntity = Entity();
 
-    char* filePath = "../../../resources/models/backpack/backpack.obj";
+    char* filePath = "D:\\Desktop\\UoN_BCS_ 2022-2025\\Semester 2_2024\\Computer_Graphics_Comp3320\\Project\\Github project code\\COMP3340GraphicsEngine2\\resources\\models\\wind_turbines";
     newEntity.addComponent<Model>(filePath);
 
     Model* model = newEntity.getComponent<Model>();
