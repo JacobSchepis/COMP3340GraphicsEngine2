@@ -59,6 +59,10 @@ int InputManager::getVerticalInput() {
 	return verticalInput;
 }
 
+bool InputManager::getPressedEscape() {
+	return pressedEscape;
+}
+
 //private instance methods
 
 InputManager::InputManager() : 
@@ -91,6 +95,10 @@ void InputManager::ProcessKeyDownEvent(SDL_Event evnt)
 	case SDLK_LCTRL:
 		verticalInput -= 1;
 		break;
+
+	case SDLK_ESCAPE:
+		pressedEscape = true;
+		break;
 	}
 
 	
@@ -101,4 +109,5 @@ void InputManager::ResetInputValues()
 	wasdInputVector = glm::vec2(0.0f);
 	mouseDelta = glm::vec2(0.0f);
 	verticalInput = 0;
+	pressedEscape = false;
 }

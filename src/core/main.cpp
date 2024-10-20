@@ -19,8 +19,12 @@
 
 #include "components/rendering/Light.hpp"
 
+#include "util/Time.hpp"
+
 #include <SDL/SDL_opengl.h>
 #include <string>
+
+#include "systems/LightingManager.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -76,6 +80,10 @@ bool initSDL(SDL_Window** window, SDL_GLContext* context) {
     glEnable(GL_DEPTH_TEST);
     stbi_set_flip_vertically_on_load(true);
 
+    // Lock and hide the cursor
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+
+
 
     return true;
 }
@@ -86,6 +94,8 @@ void runRenderLoop(SDL_Window* window) {
 
     Shader* shader = new Shader("shaders/vertex_shader.glsl", "shaders/fragment_test.glsl");
     Renderer renderer = Renderer();
+    LightingManager lightingManager = LightingManager();
+
 
 #pragma endregion
 
@@ -110,6 +120,10 @@ void runRenderLoop(SDL_Window* window) {
     //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
     lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 3.0f);
 
+    auto light = lightSource.getComponent<Light>();
+
+    lightingManager.addStaticLight(light);
+
 #pragma endregion
 
 #pragma region Creating Camera
@@ -120,15 +134,12 @@ void runRenderLoop(SDL_Window* window) {
 
     Camera* camPtr = camera.getComponent<Camera>();
 
-
-    Transform* transformPtr = camera.getComponent<Transform>();
-
-
-    transformPtr->position = glm::vec3(0, 1, 0);
-
     renderer.setActiveCamera(camPtr);
 
 #pragma endregion
+
+    shader->Use();
+    lightingManager.setStaticLights(shader);
 
     MonobehaviorManager::Instance().awake();
     MonobehaviorManager::Instance().start();
@@ -137,19 +148,19 @@ void runRenderLoop(SDL_Window* window) {
     SDL_Event event;
 
     while (running) {
+
+        Time::update();
         
         InputManager::Instance().processInputs();
         if (InputManager::Instance().getApplicationQuit())
             SDL_Quit();
 
+        if (InputManager::Instance().getPressedEscape())
+            SDL_SetRelativeMouseMode(SDL_FALSE);
+
         MonobehaviorManager::Instance().update();
 
-        // Implement the Light
-        Light* light = lightSource.getComponent<Light>();
-        if (light) {
-            light->applyLightToShader(*shader, "light[0]");
-        }
-
+        lightingManager.updateDynamicLights(shader);
         renderer.render(shader);
 
         SDL_GL_SwapWindow(window);

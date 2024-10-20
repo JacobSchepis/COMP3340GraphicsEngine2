@@ -23,6 +23,8 @@ public:
 
 	int getVerticalInput();
 
+	bool getPressedEscape();
+
 private:
 	InputManager();
 
@@ -38,4 +40,5 @@ private:
 
 	void ResetInputValues();
 
+	bool pressedEscape;
 };
