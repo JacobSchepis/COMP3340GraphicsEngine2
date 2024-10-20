@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\build\CMakeFiles\696e30149b40d997ddfc0fb5401bf502\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{567EC4AB-58F2-3953-9E14-9378C11F5FFA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

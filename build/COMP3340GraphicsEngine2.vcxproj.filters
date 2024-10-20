@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\components\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\components\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\components\rendering\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\components\rendering\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\core\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\entities\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\graphics\MeshRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\graphics\Renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\input\InputManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\scripts\CameraController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\shaders\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\systems\MonobehaviorManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\src\util\Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\graphics\Vertex.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\graphics\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\components\abstract\Monobehavior.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\components\abstract\IComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\graphics\Mesh.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\graphics\Material.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\graphics\Texture.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\graphics\MeshRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\components\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\components\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\entities\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\systems\MonobehaviorManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\scripts\CameraController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\input\InputManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\components\rendering\Light.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\util\Debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\include\components\rendering\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Desktop\UoN_BCS_ 2022-2025\Semester 2_2024\Computer_Graphics_Comp3320\Project\Github project code\COMP3340GraphicsEngine2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{E612C1DF-8C1E-34B7-BBE8-4367B8D851A6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{103C1C5B-DDC0-3224-8A80-09C860BC7B11}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
