@@ -30,6 +30,7 @@
 #include <stb_image.h>
 
 
+
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
@@ -92,25 +93,16 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma region shader creation
 
-    Shader* shader = new Shader("shaders/vertex_shader.glsl", "shaders/fragment_test.glsl");
     Renderer renderer = Renderer();
-    LightingManager lightingManager = LightingManager();
-
 
 #pragma endregion
 
-#pragma region creating entity
+#pragma region creating wind turbines
 
-    Entity newEntity = Entity();
-
-    char* filePath = "../../../resources/models/house/model.obj";
-    newEntity.addComponent<Model>(filePath);
-
-    Model* model = newEntity.getComponent<Model>();
-
-    renderer.addModel(model);
-
-    newEntity.getComponent<Transform>()->position = glm::vec3(0.0f, 2.0f, 0.0f);
+    Entity turbines = Entity();
+    char* turbineFile = "../../../resources/models/Cube/object.obj";
+    turbines.addComponent<Model>(turbineFile);
+    renderer.addModel(turbines.getComponent<Model>(), Renderer::PBR);
 
 #pragma endregion
 
@@ -120,9 +112,7 @@ void runRenderLoop(SDL_Window* window) {
     //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
     lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 3.0f);
 
-    auto light = lightSource.getComponent<Light>();
-
-    lightingManager.addStaticLight(light);
+    renderer.addLight(lightSource.getComponent<Light>(), true);
 
 #pragma endregion
 
@@ -138,8 +128,7 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma endregion
 
-    shader->Use();
-    lightingManager.setStaticLights(shader);
+    renderer.setStaticLights();
 
     MonobehaviorManager::Instance().awake();
     MonobehaviorManager::Instance().start();
@@ -160,8 +149,7 @@ void runRenderLoop(SDL_Window* window) {
 
         MonobehaviorManager::Instance().update();
 
-        lightingManager.updateDynamicLights(shader);
-        renderer.render(shader);
+        renderer.render();
 
         SDL_GL_SwapWindow(window);
     }

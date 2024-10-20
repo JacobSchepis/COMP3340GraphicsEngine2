@@ -8,8 +8,7 @@ class LightingManager {
 public:
 	~LightingManager();
 
-	void addStaticLight(Light* light);
-	void addDynamicLight(Light* light);
+	void addLight(Light* light, bool isStatic);
 	void setStaticLights(Shader* shader);
 	void updateDynamicLights(Shader* shader);
 

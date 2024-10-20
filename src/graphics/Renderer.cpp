@@ -17,30 +17,119 @@ Renderer::~Renderer()
 }
 
 
-void Renderer::render(Shader* shader) {
+void Renderer::render() {
     // Clear the screen with a color
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    const glm::mat4& view = activeCamera->getViewMatrix();
+    for (const auto& shaderPair : flagsToShader) {
+        auto shaderType = shaderPair.first;
+        Shader* shader = shaderPair.second;
 
-    const glm::mat4& projection = activeCamera->getProjectionMatrix();
+        shader->Use();
+        setCamera(shader);
+        lightingManager.updateDynamicLights(shader);
 
-    shader->Use();
+        for (const auto& modelPair : objectShaderFlags) {
+            if (modelPair.second & shaderType)
+                switch (shaderType) {
+                case (PBR):
+                    renderPBR(modelPair.first);
+                    break;
 
+                case (Outline):
+                    renderOutline(modelPair.first);
+                    break;
+                }
+        }
+    }
+}
+
+void Renderer::setCamera(Shader* shader) {
     shader->setVec3("viewPos", activeCamera->parent->getComponent<Transform>()->position);
+    shader->setMat4("view", activeCamera->getViewMatrix());
+    shader->setMat4("projection", activeCamera->getProjectionMatrix());
+}
 
-    shader->setMat4("view", view);
-    shader->setMat4("projection", projection);
+void Renderer::renderPBR(Model* model) {
+    auto* shader = flagsToShader[PBR];
 
-    for (Model* model: m_Models)
-        model->Draw(shader);
+    for (auto& meshRenderer : model->meshRenderersVector) {
+        // Activate texture unit 0 and bind the albedo map
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.albedoTexture->id);  // Bind the texture ID for albedo
+        glUniform1i(glGetUniformLocation(shader->Program, "material.albedoTexture"), 0);  // Pass the texture unit to the shader
+
+        // Activate texture unit 1 and bind the normal map
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.normalMap->id);  // Bind the texture ID for normal
+        glUniform1i(glGetUniformLocation(shader->Program, "material.normalMap"), 1);  // Pass the texture unit to the shader
+
+        // Activate texture unit 2 and bind the metallic map
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.metallicTexture->id);  // Bind the texture ID for metallic
+        glUniform1i(glGetUniformLocation(shader->Program, "material.metallicTexture"), 2);  // Pass the texture unit to the shader
+
+        // Activate texture unit 3 and bind the roughness map
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.albedoTexture->id);  // Bind the texture ID for roughness
+        glUniform1i(glGetUniformLocation(shader->Program, "material.roughnessTexture"), 3);  // Pass the texture unit to the shader
+
+        // Activate texture unit 4 and bind the AO map
+        glActiveTexture(GL_TEXTURE4);
+        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.ambientTexture->id);  // Bind the texture ID for AO
+        glUniform1i(glGetUniformLocation(shader->Program, "material.aoTexture"), 4);  // Pass the texture unit to the shader
+
+        // Optionally, bind the emissive map to texture unit 5
+        glActiveTexture(GL_TEXTURE5);
+        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.emissiveTexture->id);  // Bind the texture ID for emissive
+        glUniform1i(glGetUniformLocation(shader->Program, "material.emissiveTexture"), 5);  // Pass the texture unit to the shader
+
+        // If you have an environment map (cube map)
+        glActiveTexture(GL_TEXTURE6);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, meshRenderer.material.environmentMap->id);  // Bind the environment cube map
+        glUniform1i(glGetUniformLocation(shader->Program, "material.environmentMap"), 6);  // Pass the cube map texture unit to the shader
+
+
+        shader->setMat4("model", meshRenderer.transform.getModel());
+
+        meshRenderer.render();
+    }
+}
+
+void Renderer::renderOutline(Model* model) {
+
+    Shader* shader = flagsToShader[Outline];
+
+    // Enable depth testing but disable depth writing for the outline
+    glEnable(GL_DEPTH_TEST); 
+    //glDepthMask(GL_FALSE);  // Disable depth writing 
+
+    for (auto& meshRenderer : model->meshRenderersVector) {
+        //glm::mat4 outlineModel = glm::scale(meshRenderer.transform.getModel(), glm::vec3(1.05f));  // Scale by 5% larger
+        
+        shader->setMat4("model", meshRenderer.transform.getModel());
+
+        meshRenderer.render();
+    }
+
+    glDepthMask(GL_TRUE);  // Re-enable depth writing
+
 }
 
 void Renderer::setActiveCamera(Camera* camera) {
     activeCamera = camera;
 }
 
-void Renderer::addModel(Model* model) {
-    m_Models.push_back(model);
+void Renderer::addModel(Model* model, int shaderType) {
+    objectShaderFlags[model] = shaderType;
+}
+
+void Renderer::addLight(Light* light, bool isStatic) {
+    lightingManager.addLight(light, isStatic);
+}
+
+void Renderer::setStaticLights() {
+    for (auto& pair : flagsToShader)
+        lightingManager.setStaticLights(pair.second);
 }

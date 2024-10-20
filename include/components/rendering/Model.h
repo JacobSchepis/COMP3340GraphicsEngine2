@@ -13,19 +13,18 @@
 class Model : public IComponent
 {
 public:
+    std::vector<MeshRenderer> meshRenderersVector;
+
     Model(char* modelPath)
     {
         loadModel(modelPath);
     }
-    void Draw(Shader* shader);
+
 private:
     // model data
-    std::vector<MeshRenderer> meshRenderersVector;
     std::string directory;
 
     void loadModel(std::string modelPath);
     void processNode(aiNode* node, const aiScene* scene);
     std::vector<MeshRenderer> processMesh(aiMesh* mesh, const aiScene* scene);
-    std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 };
-

@@ -17,7 +17,7 @@ public:
 
 	void setup();
 
-	void render(Shader* shader);
+	void render();
 
 	Transform transform;
 	Mesh mesh;

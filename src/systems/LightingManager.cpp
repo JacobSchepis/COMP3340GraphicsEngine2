@@ -10,15 +10,17 @@ LightingManager::~LightingManager() {
         light = nullptr;
 }
 
-void LightingManager::addStaticLight(Light* light) {
-    staticLightsVector.push_back(light);
+void LightingManager::addLight(Light* light, bool isStatic) {
+
+    if (isStatic)
+        staticLightsVector.push_back(light);
+    else
+        dynamicLightsVector.push_back(light);
 }
 
-void LightingManager::addDynamicLight(Light* light) {
-    dynamicLightsVector.push_back(light);
-}
 
 void LightingManager::setStaticLights(Shader* shader) {
+    shader->Use();
     int staticLightCount = staticLightsVector.size();
     for (int i = 0; i < staticLightCount; ++i) {
         staticLightsVector[i]->applyLightToShader(*shader, "light[" + std::to_string(i) + "]");
