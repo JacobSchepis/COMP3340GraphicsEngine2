@@ -7,6 +7,8 @@
 #include <GL/glew.h>
 #include "shaders/Shader.h"
 
+#include <iostream>
+
 // Enumeration of light source types
 enum LightType {
     DIRECTIONAL,
@@ -49,11 +51,11 @@ public:
 
 	// constructor
     Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float intensity)
-        : type(type), ambient(ambient), diffuse(diffuse), specular(specular), intensity(intensity) 
+        : type(type), ambient(ambient), diffuse(diffuse), specular(specular), intensity(intensity), shadowWidth(4096), shadowHeight(4096)
     {
 		// initialise the default of light source
         if (type == LightType::DIRECTIONAL) {
-             direction = glm::vec3(1.0f, -1.0f, 0.0f);
+             direction = glm::vec3(0.3f, -0.99f, 0.3f);
         } 
         
         else if (type == LightType::POINT) {
@@ -69,16 +71,18 @@ public:
             outerCutOff = glm::cos(glm::radians(15.0f));
         }
 
-        initializeShadowMap(1024, 1024);
+        position = glm::vec3(0, 20, 0);
+
+        initializeShadowMap(shadowWidth, shadowHeight);
     }
 
 	// Setting lighting attributes in the shader
     void applyLightToShader(class Shader& shader, const std::string& uniformName) {
 
         // Setting the basic attributes of light
-        shader.setVec3(uniformName + ".ambient", ambient);
-        shader.setVec3(uniformName + ".diffuse", diffuse);
-        shader.setVec3(uniformName + ".specular", specular);
+        shader.setVec3(uniformName + ".color", ambient);
+        //shader.setVec3(uniformName + ".diffuse", diffuse);
+        //shader.setVec3(uniformName + ".specular", specular);
         shader.setFloat(uniformName + ".intensity", intensity);
 
         // Setting the specific arribute based on type of light source
@@ -125,7 +129,7 @@ public:
 
     glm::mat4 getLightSpaceMatrix() const {
         // Set up orthographic projection for directional light
-        glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 1000.0f);
+        glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
 
         // Set up view matrix from light's perspective (position and direction)
         glm::mat4 lightView = glm::lookAt(position, position + direction, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -133,7 +137,7 @@ public:
         // Combine light projection and view matrices
         glm::mat4 lightSpaceMatrix = lightProjection * lightView;
 
-        return lightSpaceMatrix;
+        return lightSpaceMatrix; 
     }
 
 

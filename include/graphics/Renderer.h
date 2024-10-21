@@ -34,8 +34,7 @@ private:
 
 	std::unordered_map<ShaderType, Shader*> flagsToShader = {
 		{ShadowMap, new Shader("shaders/ShadowMap_vert.glsl", "shaders/ShadowMap_frag.glsl")},
-		{PBR, new Shader("shaders/PBR_vert.glsl", "shaders/test_frag.glsl")},
-		{Outline, new Shader("shaders/Outline_vert.glsl", "shaders/Outline_frag.glsl")}
+		{PBR, new Shader("shaders/PBR_vert.glsl", "shaders/PBR_frag.glsl")},
 	};
 
 	Camera* activeCamera;

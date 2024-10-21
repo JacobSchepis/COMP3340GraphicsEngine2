@@ -12,7 +12,7 @@ public:
 
 private:
 	float timeOfDay = 0.0f;  // Starts at midnight
-	float daySpeed = 0.01f;  // Speed of time progression
+	float daySpeed = 0.1f;  // Speed of time progression
 
 	Light* light;
 

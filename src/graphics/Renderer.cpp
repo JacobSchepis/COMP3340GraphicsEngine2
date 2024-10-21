@@ -23,6 +23,11 @@ void Renderer::render() {
         Shader* shadowShader = flagsToShader[ShadowMap];
         shadowShader->Use();
 
+        glEnable(GL_DEPTH_TEST);
+        glViewport(0, 0, light->shadowWidth, light->shadowHeight);
+        glBindFramebuffer(GL_FRAMEBUFFER, light->shadowMapFBO);
+        glClear(GL_DEPTH_BUFFER_BIT);
+
         // Set the light's view-projection matrix (lightSpaceMatrix)
         glm::mat4 lightSpaceMatrix = light->getLightSpaceMatrix();
         shadowShader->setMat4("lightSpaceMatrix", lightSpaceMatrix);
@@ -31,11 +36,14 @@ void Renderer::render() {
         for (const auto& modelPair : objectShaderFlags) {
             renderShadowMap(modelPair.first);
         }
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     // Clear the screen with a color
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glViewport(0, 0, 800, 600);
+
 
     for (const auto& shaderPair : flagsToShader) {
         auto shaderType = shaderPair.first;

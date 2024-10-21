@@ -16,6 +16,8 @@ struct Texture {
 
         path.erase(0, 9);
 
+        //or use path = "../" + path if you're too far ahead
+
         GLuint textureId;
         glGenTextures(1, &textureId);
         glBindTexture(GL_TEXTURE_2D, textureId);

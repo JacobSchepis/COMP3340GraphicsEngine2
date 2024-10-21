@@ -29,6 +29,6 @@ struct Material {
         opacityMap(new Texture(path + "/opacity.png")),
         environmentMap(new Texture(path + "/evironmentMap.png")),
 
-        shininess(0.6f)
+        shininess(14.0f)
     {}
 };
