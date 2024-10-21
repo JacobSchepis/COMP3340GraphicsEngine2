@@ -12,9 +12,16 @@ public:
 	void setStaticLights(Shader* shader);
 	void updateDynamicLights(Shader* shader);
 
+	void generateStaticShadowMap();
+	void generateDynamicShadowMap();
+
+	std::vector<Light*> getLights();
+
 private:
 	std::vector<Light*> staticLightsVector;
 	std::vector<Light*> dynamicLightsVector;
+
+	Shader* shadowMapShader = new Shader("shaders/ShadowMap_vert.glsl", "shaders/ShadowMap_frag.glsl");
 
 	int staticLightIndex = 0;
 };

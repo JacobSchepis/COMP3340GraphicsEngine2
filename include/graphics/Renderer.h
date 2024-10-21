@@ -13,7 +13,7 @@ public:
 	enum ShaderType {
 		PBR = 1 << 0,        // 0001
 		Outline = 1 << 1, // 0010
-		Refraction = 1 << 2, // 0100
+		ShadowMap = 1 << 2, // 0100
 		// Add more shaders as needed
 	};
 
@@ -33,6 +33,7 @@ private:
 	std::unordered_map<Model*, int> objectShaderFlags;
 
 	std::unordered_map<ShaderType, Shader*> flagsToShader = {
+		{ShadowMap, new Shader("shaders/ShadowMap_vert.glsl", "shaders/ShadowMap_frag.glsl")},
 		{PBR, new Shader("shaders/PBR_vert.glsl", "shaders/test_frag.glsl")},
 		{Outline, new Shader("shaders/Outline_vert.glsl", "shaders/Outline_frag.glsl")}
 	};
@@ -42,6 +43,7 @@ private:
 
 	void renderPBR(Model* model);
 	void renderOutline(Model* model);
+	void renderShadowMap(Model* model);
 
 	void setCamera(Shader* shader);
 };

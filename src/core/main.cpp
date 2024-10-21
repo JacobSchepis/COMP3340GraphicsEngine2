@@ -107,7 +107,7 @@ void runRenderLoop(SDL_Window* window) {
     temp.getComponent<Transform>()->updateModelMatrix();
     char* turbineFile = "../../../resources/models/Cube/object.obj";
     temp.addComponent<Model>(turbineFile);
-    renderer.addModel(temp.getComponent<Model>(), Renderer::PBR | Renderer::Outline);
+    renderer.addModel(temp.getComponent<Model>(), Renderer::PBR);
 
     Entity temp3 = Entity();
     temp3.getComponent<Transform>()->scale = glm::vec3(4, 1, 4);

@@ -18,6 +18,21 @@ Renderer::~Renderer()
 
 
 void Renderer::render() {
+
+    for (const auto& light : lightingManager.getLights()) {
+        Shader* shadowShader = flagsToShader[ShadowMap];
+        shadowShader->Use();
+
+        // Set the light's view-projection matrix (lightSpaceMatrix)
+        glm::mat4 lightSpaceMatrix = light->getLightSpaceMatrix();
+        shadowShader->setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+        // Render the scene to generate the shadow map
+        for (const auto& modelPair : objectShaderFlags) {
+            renderShadowMap(modelPair.first);
+        }
+    }
+
     // Clear the screen with a color
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -40,7 +55,11 @@ void Renderer::render() {
                 case (Outline):
                     renderOutline(modelPair.first);
                     break;
+
+                case (ShadowMap):
+                    break;
                 }
+            //other shader programs here
         }
     }
 }
@@ -115,6 +134,18 @@ void Renderer::renderOutline(Model* model) {
 
     glDepthMask(GL_TRUE);  // Re-enable depth writing
 
+}
+
+void Renderer::renderShadowMap(Model* model) {
+    Shader* shadowShader = flagsToShader[ShadowMap];
+
+    for (auto& meshRenderer : model->meshRenderersVector) {
+        glm::mat4 modelMatrix = meshRenderer.transform.getModel();
+        shadowShader->setMat4("model", modelMatrix);
+
+        // Render the mesh with depth-only shader
+        meshRenderer.render();
+    }
 }
 
 void Renderer::setActiveCamera(Camera* camera) {

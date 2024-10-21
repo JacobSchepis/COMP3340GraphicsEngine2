@@ -2,8 +2,10 @@
 
 #include "components/abstract/IComponent.hpp"
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <string>
-
+#include <GL/glew.h>
+#include "shaders/Shader.h"
 
 // Enumeration of light source types
 enum LightType {
@@ -37,6 +39,14 @@ public:
     float cutOff;
     float outerCutOff;
 
+    //shadow stuff
+
+    GLuint shadowMapFBO;
+    GLuint shadowMapTexture;
+    GLuint shadowWidth;
+    GLuint shadowHeight;
+
+
 	// constructor
     Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float intensity)
         : type(type), ambient(ambient), diffuse(diffuse), specular(specular), intensity(intensity) 
@@ -58,10 +68,74 @@ public:
             cutOff = glm::cos(glm::radians(12.5f));
             outerCutOff = glm::cos(glm::radians(15.0f));
         }
+
+        initializeShadowMap(1024, 1024);
     }
 
 	// Setting lighting attributes in the shader
-    void applyLightToShader(class Shader& shader, const std::string& uniformName);
+    void applyLightToShader(class Shader& shader, const std::string& uniformName) {
+
+        // Setting the basic attributes of light
+        shader.setVec3(uniformName + ".ambient", ambient);
+        shader.setVec3(uniformName + ".diffuse", diffuse);
+        shader.setVec3(uniformName + ".specular", specular);
+        shader.setFloat(uniformName + ".intensity", intensity);
+
+        // Setting the specific arribute based on type of light source
+        if (type == DIRECTIONAL) {
+            shader.setVec3(uniformName + ".direction", direction);
+        }
+
+        else if (type == POINT) {
+            shader.setVec3(uniformName + ".position", position);
+            shader.setFloat(uniformName + ".constant", constant);
+            shader.setFloat(uniformName + ".linear", linear);
+            shader.setFloat(uniformName + ".quadratic", quadratic);
+        }
+
+        else if (type == SPOTLIGHT) {
+            shader.setVec3(uniformName + ".position", position);
+            shader.setVec3(uniformName + ".spotDirection", spotDirection);
+            shader.setFloat(uniformName + ".cutOff", cutOff);
+            shader.setFloat(uniformName + ".outerCutOff", outerCutOff);
+        }
+    }
+
+    void initializeShadowMap(int shadowWidth, int shadowHeight) {
+        // Create FBO
+        glGenFramebuffers(1, &shadowMapFBO);
+
+        // Create shadow map texture
+        glGenTextures(1, &shadowMapTexture);
+        glBindTexture(GL_TEXTURE_2D, shadowMapTexture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowWidth, shadowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+        // Attach depth texture as the FBO's depth buffer
+        glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowMapTexture, 0);
+        glDrawBuffer(GL_NONE);  // We don't need color output
+        glReadBuffer(GL_NONE);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+    glm::mat4 getLightSpaceMatrix() const {
+        // Set up orthographic projection for directional light
+        glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 1000.0f);
+
+        // Set up view matrix from light's perspective (position and direction)
+        glm::mat4 lightView = glm::lookAt(position, position + direction, glm::vec3(0.0f, 1.0f, 0.0f));
+
+        // Combine light projection and view matrices
+        glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+
+        return lightSpaceMatrix;
+    }
+
 
     // destructor
     virtual ~Light() {};

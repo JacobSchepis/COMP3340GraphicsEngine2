@@ -40,7 +40,7 @@ add_executable(COMP3340GraphicsEngine2 ${SOURCES}
 
 "include/input/InputManager.h"                  "src/input/InputManager.cpp"
 
-"include/components/rendering/Light.hpp"        "src/components/rendering/Light.cpp"
+"include/components/rendering/Light.hpp"        
 
 "include/util/Debug.h"                          "src/util/Debug.cpp"  
 
