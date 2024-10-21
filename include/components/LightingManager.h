@@ -6,17 +6,17 @@
 
 class LightingManager {
 private:
-    std::vector<Light> staticLights;  // 静态光源列表
-    std::vector<Light> dynamicLights; // 动态光源列表
+    std::vector<Light> staticLights;
+    std::vector<Light> dynamicLights;
 
 public:
     // 添加静态或动态光源
     void addLight(const Light& light);
 
-    // 初始化静态光源（只需设置一次）
+    // initialise static light
     void initialiseStaticLighting(Shader* shader);
 
-    // 更新动态光源（每帧更新一次）
+    // update dynamic light direction based on time
     void updateDynamicLighting(Shader* shader, float time);
 };
 

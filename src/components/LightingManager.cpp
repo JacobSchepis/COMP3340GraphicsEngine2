@@ -9,9 +9,9 @@ void LightingManager::addLight(const Light& light) {
     }
 }
 
-// 移除静态或动态光源
+// remove light source
 //    void removeLight(const Light& light) {
-//        // 从静态或动态光源中移除
+//        // remove
 //        if (light.isStatic()) {
 //            staticLights.erase(std::remove(staticLights.begin(), staticLights.end(), light), staticLights.end());
 //        } else {
@@ -19,19 +19,27 @@ void LightingManager::addLight(const Light& light) {
 //        }
 //    }
 
-// 初始化静态光源（只需要设置一次）
+// initialise static light
 void LightingManager::initialiseStaticLighting(Shader* shader) {
+    int index = 0;  // Index used to traverse the static light array
     for (const auto& light : staticLights) {
-        // 将每个光源应用到着色器
-        // light.applyLightToShader(*shader, "staticLights");
-        light.applyLightToShader(*shader, "light");
+        // Generate unique array index names for each light, such as "staticLights[0]", "staticLights[1]", etc.
+        std::string lightName = "staticLights[" + std::to_string(index) + "]";
+        light.applyLightToShader(*shader, lightName);
+        ++index;  // Incrementing index
     }
 }
 
-// 更新动态光源（每帧更新一次）
+// update dynamic light direction based on time
 void LightingManager::updateDynamicLighting(Shader* shader, float time) {
+    int index = 0;  // Index used to traverse the dynamic light array
     for (auto& light : dynamicLights) {
-        light.updateLightDirection(time);  // 根据时间动态更新光源方向
-        light.applyLightToShader(*shader, "dynamicLights");
+        light.updateLightDirection(time);  // Dynamically update the light source direction based on time
+
+        // Generate unique array index names for each light, such as "dynamicLights[0]", "dynamicLights[1]", etc.
+        std::string lightName = "dynamicLights[" + std::to_string(index) + "]";
+        light.applyLightToShader(*shader, lightName);
+
+        ++index;  // Incrementing index
     }
 }
