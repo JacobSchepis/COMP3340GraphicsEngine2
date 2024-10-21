@@ -21,12 +21,13 @@ void Renderer::render() {
 
     for (const auto& light : lightingManager.getLights()) {
         Shader* shadowShader = flagsToShader[ShadowMap];
-        shadowShader->Use();
 
-        glEnable(GL_DEPTH_TEST);
-        glViewport(0, 0, light->shadowWidth, light->shadowHeight);
         glBindFramebuffer(GL_FRAMEBUFFER, light->shadowMapFBO);
+        glViewport(0, 0, light->shadowWidth, light->shadowHeight);
+
         glClear(GL_DEPTH_BUFFER_BIT);
+
+        shadowShader->Use();
 
         // Set the light's view-projection matrix (lightSpaceMatrix)
         glm::mat4 lightSpaceMatrix = light->getLightSpaceMatrix();
@@ -83,39 +84,58 @@ void Renderer::renderPBR(Model* model) {
 
     for (auto& meshRenderer : model->meshRenderersVector) {
         // Activate texture unit 0 and bind the albedo map
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.albedoTexture->id);  // Bind the texture ID for albedo
-        glUniform1i(glGetUniformLocation(shader->Program, "material.albedoTexture"), 0);  // Pass the texture unit to the shader
 
-        // Activate texture unit 1 and bind the normal map
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.normalMap->id);  // Bind the texture ID for normal
-        glUniform1i(glGetUniformLocation(shader->Program, "material.normalMap"), 1);  // Pass the texture unit to the shader
+        // Activate and bind textures with checks
 
-        // Activate texture unit 2 and bind the metallic map
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.metallicTexture->id);  // Bind the texture ID for metallic
-        glUniform1i(glGetUniformLocation(shader->Program, "material.metallicTexture"), 2);  // Pass the texture unit to the shader
+        // Check and bind albedo texture
+        if (meshRenderer.material.albedoTexture != nullptr) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, meshRenderer.material.albedoTexture->id);  // Bind the texture ID for albedo
+            glUniform1i(glGetUniformLocation(shader->Program, "material.albedoTexture"), 0);  // Pass the texture unit to the shader
+        }
 
-        // Activate texture unit 3 and bind the roughness map
-        glActiveTexture(GL_TEXTURE3);
-        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.albedoTexture->id);  // Bind the texture ID for roughness
-        glUniform1i(glGetUniformLocation(shader->Program, "material.roughnessTexture"), 3);  // Pass the texture unit to the shader
+        // Check and bind normal map
+        if (meshRenderer.material.normalMap != nullptr) {
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, meshRenderer.material.normalMap->id);  // Bind the texture ID for normal
+            glUniform1i(glGetUniformLocation(shader->Program, "material.normalMap"), 1);  // Pass the texture unit to the shader
+        }
 
-        // Activate texture unit 4 and bind the AO map
-        glActiveTexture(GL_TEXTURE4);
-        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.ambientTexture->id);  // Bind the texture ID for AO
-        glUniform1i(glGetUniformLocation(shader->Program, "material.aoTexture"), 4);  // Pass the texture unit to the shader
+        // Check and bind metallic texture
+        if (meshRenderer.material.metallicTexture != nullptr) {
+            glActiveTexture(GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_2D, meshRenderer.material.metallicTexture->id);  // Bind the texture ID for metallic
+            glUniform1i(glGetUniformLocation(shader->Program, "material.metallicTexture"), 2);  // Pass the texture unit to the shader
+        }
 
-        // Optionally, bind the emissive map to texture unit 5
-        glActiveTexture(GL_TEXTURE5);
-        glBindTexture(GL_TEXTURE_2D, meshRenderer.material.emissiveTexture->id);  // Bind the texture ID for emissive
-        glUniform1i(glGetUniformLocation(shader->Program, "material.emissiveTexture"), 5);  // Pass the texture unit to the shader
+        // Check and bind roughness texture
+        if (meshRenderer.material.roughnessTexture != nullptr) {
+            glActiveTexture(GL_TEXTURE3);
+            glBindTexture(GL_TEXTURE_2D, meshRenderer.material.roughnessTexture->id);  // Bind the texture ID for roughness
+            glUniform1i(glGetUniformLocation(shader->Program, "material.roughnessTexture"), 3);  // Pass the texture unit to the shader
+        }
 
-        // If you have an environment map (cube map)
-        glActiveTexture(GL_TEXTURE6);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, meshRenderer.material.environmentMap->id);  // Bind the environment cube map
-        glUniform1i(glGetUniformLocation(shader->Program, "material.environmentMap"), 6);  // Pass the cube map texture unit to the shader
+        // Check and bind ambient occlusion (AO) texture
+        if (meshRenderer.material.ambientTexture != nullptr) {
+            glActiveTexture(GL_TEXTURE4);
+            glBindTexture(GL_TEXTURE_2D, meshRenderer.material.ambientTexture->id);  // Bind the texture ID for AO
+            glUniform1i(glGetUniformLocation(shader->Program, "material.aoTexture"), 4);  // Pass the texture unit to the shader
+        }
+
+        // Check and bind emissive texture
+        if (meshRenderer.material.emissiveTexture != nullptr) {
+            glActiveTexture(GL_TEXTURE5);
+            glBindTexture(GL_TEXTURE_2D, meshRenderer.material.emissiveTexture->id);  // Bind the texture ID for emissive
+            glUniform1i(glGetUniformLocation(shader->Program, "material.emissiveTexture"), 5);  // Pass the texture unit to the shader
+        }
+
+        // Check and bind environment map (cube map)
+        if (meshRenderer.material.environmentMap != nullptr) {
+            glActiveTexture(GL_TEXTURE6);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, meshRenderer.material.environmentMap->id);  // Bind the environment cube map
+            glUniform1i(glGetUniformLocation(shader->Program, "material.environmentMap"), 6);  // Pass the cube map texture unit to the shader
+        }
+
 
 
         shader->setMat4("model", meshRenderer.transform.getModel() * model->parent->getComponent<Transform>()->getModel());
@@ -148,7 +168,7 @@ void Renderer::renderShadowMap(Model* model) {
     Shader* shadowShader = flagsToShader[ShadowMap];
 
     for (auto& meshRenderer : model->meshRenderersVector) {
-        glm::mat4 modelMatrix = meshRenderer.transform.getModel();
+        glm::mat4 modelMatrix = meshRenderer.transform.getModel() * model->parent->getComponent<Transform>()->getModel();
         shadowShader->setMat4("model", modelMatrix);
 
         // Render the mesh with depth-only shader

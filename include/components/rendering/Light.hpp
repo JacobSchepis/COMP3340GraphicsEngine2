@@ -71,7 +71,7 @@ public:
             outerCutOff = glm::cos(glm::radians(15.0f));
         }
 
-        position = glm::vec3(0, 20, 0);
+        position = glm::vec3(-2, 1, -2);
 
         initializeShadowMap(shadowWidth, shadowHeight);
     }
@@ -115,21 +115,25 @@ public:
         glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowWidth, shadowHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-        float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        //float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+        //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
         // Attach depth texture as the FBO's depth buffer
         glBindFramebuffer(GL_FRAMEBUFFER, shadowMapFBO);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, shadowMapTexture, 0);
+
         glDrawBuffer(GL_NONE);  // We don't need color output
         glReadBuffer(GL_NONE);
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     glm::mat4 getLightSpaceMatrix() const {
         // Set up orthographic projection for directional light
-        glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
+        glm::mat4 lightProjection = glm::ortho(-20.0f, 20.0f, -20.0f, 20.0f, -20.0f, 20.0f);
 
         // Set up view matrix from light's perspective (position and direction)
         glm::mat4 lightView = glm::lookAt(position, position + direction, glm::vec3(0.0f, 1.0f, 0.0f));

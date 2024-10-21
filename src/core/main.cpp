@@ -100,25 +100,27 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma region creating wind turbines
 
+    char* turbineFile = "../../../resources/models/Cube/object.obj";
+
+    Entity temp1 = Entity();
+    temp1.getComponent<Transform>()->scale = glm::vec3(20, 1, 20);
+    temp1.getComponent<Transform>()->position = glm::vec3(4, -5, 4);
+    temp1.getComponent<Transform>()->updateModelMatrix();
+    temp1.addComponent<Model>(turbineFile);
+    renderer.addModel(temp1.getComponent<Model>(), Renderer::PBR);
 
     Entity temp = Entity(); 
-    temp.getComponent<Transform>()->scale = glm::vec3(5, 1, 5);
-    //temp.getComponent<Transform>()->position = glm::vec3(i * 4, 0, j * 4);
+    temp.getComponent<Transform>()->scale = glm::vec3(10, 1, 10);
+    temp.getComponent<Transform>()->position = glm::vec3(0, 0, 0);
     temp.getComponent<Transform>()->updateModelMatrix(); 
-    char* turbineFile = "../../../resources/models/Cube/object.obj";
     temp.addComponent<Model>(turbineFile); 
     renderer.addModel(temp.getComponent<Model>(), Renderer::PBR); 
 
-    Entity temp1 = Entity();
-    //temp.getComponent<Transform>()->scale = glm::vec3(20, 1, 20);
-    temp1.getComponent<Transform>()->position = glm::vec3(4, 5, 4);
-    temp.getComponent<Transform>()->updateModelMatrix();
-    temp.addComponent<Model>(turbineFile);
-    renderer.addModel(temp.getComponent<Model>(), Renderer::PBR);
+
 
     Entity temp2 = Entity();
     //temp.getComponent<Transform>()->scale = glm::vec3(20, 1, 20);
-    temp2.getComponent<Transform>()->position = glm::vec3(8, 5, 8);
+    temp2.getComponent<Transform>()->position = glm::vec3(15, 0, 15);
     temp2.getComponent<Transform>()->updateModelMatrix();
     temp2.addComponent<Model>(turbineFile);
     renderer.addModel(temp2.getComponent<Model>(), Renderer::PBR);
@@ -153,6 +155,8 @@ void runRenderLoop(SDL_Window* window) {
 
     renderer.addLight(lightSource.getComponent<Light>(), false);
 
+    auto* light = lightSource.getComponent<Light>();
+
 #pragma endregion
 
 #pragma region Creating Camera
@@ -175,11 +179,45 @@ void runRenderLoop(SDL_Window* window) {
     bool running = true;
     SDL_Event event;
 
-    std::cout << "made it here" << std::endl;
-
     Shader* quadShader = new Shader("shaders/Quad_vert.glsl", "shaders/Quad_frag.glsl");
 
     quadShader->Use();
+
+#pragma region test
+
+    // Vertices for a full-screen quad (NDC coordinates)
+    float quadVertices[] = {
+        // Positions   // Texture Coords
+        -1.0f,  1.0f,  0.0f, 1.0f,
+        -1.0f, -1.0f,  0.0f, 0.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
+
+        -1.0f,  1.0f,  0.0f, 1.0f,
+         1.0f, -1.0f,  1.0f, 0.0f,
+         1.0f,  1.0f,  1.0f, 1.0f
+    };
+
+    // Setup VAO, VBO for the quad
+    GLuint quadVAO, quadVBO;
+    glGenVertexArrays(1, &quadVAO);
+    glGenBuffers(1, &quadVBO);
+
+    glBindVertexArray(quadVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+
+    // Position attribute
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+
+    // Texture coordinates attribute
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
+    glBindVertexArray(0);  // Unbind VAO
+
+#pragma endregion
 
     while (running) {
 
@@ -195,6 +233,19 @@ void runRenderLoop(SDL_Window* window) {
         MonobehaviorManager::Instance().update();
 
         renderer.render();
+
+        //// Bind the shadow map texture
+        //glActiveTexture(GL_TEXTURE0);
+        //glBindTexture(GL_TEXTURE_2D, light->shadowMapTexture);  // shadowMapTexture is the depth texture ID
+        //
+        //// Use the simple shader for displaying the depth map
+        //quadShader->Use();  // Use the shader you just created for rendering the quad
+        //quadShader->setInt("depthMap", 0);  // Set the depth map sampler
+        //
+        //// Render the quad
+        //glBindVertexArray(quadVAO);
+        //glDrawArrays(GL_TRIANGLES, 0, 6);
+        //glBindVertexArray(0);
 
 
         SDL_GL_SwapWindow(window);
