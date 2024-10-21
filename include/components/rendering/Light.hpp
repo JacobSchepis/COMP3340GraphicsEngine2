@@ -13,7 +13,7 @@ enum LightType {
 };
 
 class Light :public IComponent {
-
+public:
 	// type of light source
 	LightType type;
 
@@ -37,7 +37,6 @@ class Light :public IComponent {
     float cutOff;
     float outerCutOff;
 
-public:
 	// constructor
     Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float intensity)
         : type(type), ambient(ambient), diffuse(diffuse), specular(specular), intensity(intensity) 

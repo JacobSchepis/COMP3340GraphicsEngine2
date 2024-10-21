@@ -91,7 +91,7 @@ void Renderer::renderPBR(Model* model) {
         glUniform1i(glGetUniformLocation(shader->Program, "material.environmentMap"), 6);  // Pass the cube map texture unit to the shader
 
 
-        shader->setMat4("model", meshRenderer.transform.getModel());
+        shader->setMat4("model", meshRenderer.transform.getModel() * model->parent->getComponent<Transform>()->getModel());
 
         meshRenderer.render();
     }
@@ -106,9 +106,9 @@ void Renderer::renderOutline(Model* model) {
     //glDepthMask(GL_FALSE);  // Disable depth writing 
 
     for (auto& meshRenderer : model->meshRenderersVector) {
-        //glm::mat4 outlineModel = glm::scale(meshRenderer.transform.getModel(), glm::vec3(1.05f));  // Scale by 5% larger
+        glm::mat4 outlineModel = glm::scale(meshRenderer.transform.getModel() * model->parent->getComponent<Transform>()->getModel(), glm::vec3(1.05f));  // Scale by 5% larger
         
-        shader->setMat4("model", meshRenderer.transform.getModel());
+        shader->setMat4("model", outlineModel);
 
         meshRenderer.render();
     }

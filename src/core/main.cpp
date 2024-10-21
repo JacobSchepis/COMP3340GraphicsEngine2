@@ -19,12 +19,13 @@
 
 #include "components/rendering/Light.hpp"
 
-#include "util/Time.hpp"
+#include "util/Time.h"
 
 #include <SDL/SDL_opengl.h>
 #include <string>
 
 #include "systems/LightingManager.h"
+#include "scripts/DayNightLightCycle.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -99,10 +100,22 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma region creating wind turbines
 
-    Entity turbines = Entity();
+
+    Entity temp = Entity();
+    temp.getComponent<Transform>()->scale = glm::vec3(20, 1, 20);
+    //temp.getComponent<Transform>()->position = glm::vec3(i * 4, 0, j * 4);
+    temp.getComponent<Transform>()->updateModelMatrix();
     char* turbineFile = "../../../resources/models/Cube/object.obj";
-    turbines.addComponent<Model>(turbineFile);
-    renderer.addModel(turbines.getComponent<Model>(), Renderer::PBR);
+    temp.addComponent<Model>(turbineFile);
+    renderer.addModel(temp.getComponent<Model>(), Renderer::PBR | Renderer::Outline);
+
+    Entity temp3 = Entity();
+    temp3.getComponent<Transform>()->scale = glm::vec3(4, 1, 4);
+    temp3.getComponent<Transform>()->position = glm::vec3(0, 10, 4);
+    temp3.getComponent<Transform>()->updateModelMatrix();
+    temp3.addComponent<Model>(turbineFile);
+    renderer.addModel(temp3.getComponent<Model>(), Renderer::PBR);
+
 
 #pragma endregion
 
@@ -112,7 +125,9 @@ void runRenderLoop(SDL_Window* window) {
     //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
     lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), 3.0f);
 
-    renderer.addLight(lightSource.getComponent<Light>(), true);
+    lightSource.addComponent<DayNightLightCycle>();
+
+    renderer.addLight(lightSource.getComponent<Light>(), false);
 
 #pragma endregion
 
@@ -135,6 +150,8 @@ void runRenderLoop(SDL_Window* window) {
 
     bool running = true;
     SDL_Event event;
+
+    std::cout << "made it here" << std::endl;
 
     while (running) {
 

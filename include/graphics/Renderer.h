@@ -34,6 +34,7 @@ private:
 
 	std::unordered_map<ShaderType, Shader*> flagsToShader = {
 		{PBR, new Shader("shaders/PBR_vert.glsl", "shaders/test_frag.glsl")},
+		{Outline, new Shader("shaders/Outline_vert.glsl", "shaders/Outline_frag.glsl")}
 	};
 
 	Camera* activeCamera;
@@ -43,6 +44,4 @@ private:
 	void renderOutline(Model* model);
 
 	void setCamera(Shader* shader);
-
-
 };

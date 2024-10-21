@@ -20,7 +20,3 @@ public:
 private:
     static Uint32 lastTime;  // Time at the start of the previous frame
 };
-
-// Initialize static variables
-Uint32 Time::lastTime = SDL_GetTicks();  // Initialize the lastTime when the program starts
-float Time::deltaTime = 0.0f;
