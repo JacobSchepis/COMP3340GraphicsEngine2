@@ -1,7 +1,7 @@
 #include "components/rendering/light.hpp"
 #include "shaders/Shader.h" 
 
-void Light::applyLightToShader(Shader& shader, const std::string& uniformName) {
+void Light::applyLightToShader(Shader& shader, const std::string& uniformName) const {
     // Pass the light type to the shader
     shader.setInt(uniformName + ".type", type);
     

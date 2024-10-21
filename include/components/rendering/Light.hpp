@@ -22,6 +22,7 @@ class Light :public IComponent {
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;
+    bool isStaticLight;
 
 	// Attributes for directional light
     glm::vec3 direction;
@@ -39,8 +40,8 @@ class Light :public IComponent {
 
 public:
 	// constructor
-    Light(const std::string& typeStr, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
-        : ambient(ambient), diffuse(diffuse), specular(specular) {
+    Light(const std::string& typeStr, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, bool isStatic)
+        : ambient(ambient), diffuse(diffuse), specular(specular), isStaticLight(isStatic) {
         
 		// initialise the default of light source
         if (typeStr == "DIRECTIONAL") {
@@ -61,6 +62,11 @@ public:
         }
     }
 
+    // if is a static light source
+    bool isStatic() const {
+        return isStaticLight;
+    }
+
     // Add an update function to dynamically adjust the light direction
     // Only update for directional light
     void updateLightDirection(float time) {
@@ -74,7 +80,7 @@ public:
     }
 
 	// Setting lighting attributes in the shader
-    void applyLightToShader(class Shader& shader, const std::string& uniformName);
+    void applyLightToShader(class Shader& shader, const std::string& uniformName) const;
 
     // destructor
     virtual ~Light() {};

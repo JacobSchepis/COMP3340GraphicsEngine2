@@ -19,6 +19,8 @@
 
 #include "components/rendering/Light.hpp"
 
+#include "components/LightingManager.h"
+
 #include <SDL/SDL_opengl.h>
 #include <string>
 
@@ -101,9 +103,14 @@ void runRenderLoop(SDL_Window* window) {
 
 #pragma region creating lightSource entity
 
-    Entity lightSource = Entity();
+    //Entity lightSource = Entity();
     //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
-    lightSource.addComponent<Light>("DIRECTIONAL", glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f));
+    Light staticLight("DIRECTIONAL", glm::vec3(0.2f, 0.2f, 0.2f), glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.0f, 1.0f, 1.0f), true);
+
+    // initialize the static light
+    shader->Use();
+    staticLight.applyLightToShader(*shader, "light");
+
 
 #pragma endregion
 
@@ -140,13 +147,13 @@ void runRenderLoop(SDL_Window* window) {
         MonobehaviorManager::Instance().update();
 
         // Implement the Light
-        Light* light = lightSource.getComponent<Light>();
-        if (light) {
-            float currentTime = SDL_GetTicks() / 1000.0f; // time
-            light->updateLightDirection(currentTime);  // Dynamically update light source direction
+        //Light* light = lightSource.getComponent<Light>();
+        //if (light) {
+        //    float currentTime = SDL_GetTicks() / 1000.0f; // time
+        //    light->updateLightDirection(currentTime);  // Dynamically update light source direction
 
-            light->applyLightToShader(*shader, "light");
-        }
+        //    light->applyLightToShader(*shader, "light");
+        //}
 
         renderer.render(shader);
 

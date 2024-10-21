@@ -42,6 +42,8 @@ add_executable(COMP3340GraphicsEngine2 ${SOURCES}
 
 "include/components/rendering/Light.hpp"        "src/components/rendering/Light.cpp"
 
+"include/components/LightingManager.h"        "src/components/LightingManager.cpp"
+
 "include/util/Debug.h"                          "src/util/Debug.cpp"  
 
  "include/components/rendering/Model.h"         "src/components/rendering/Model.cpp")
