@@ -58,7 +58,6 @@ float distributionGGX(vec3 N, vec3 H, float roughness) {
     return num / denom;
 }
 
-// Shadow calculation function
 float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap) {
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;  // Perspective divide
     projCoords = projCoords * 0.5 + 0.5;  // Transform to [0, 1] range
@@ -74,9 +73,12 @@ float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap) {
     
     // Determine if the fragment is in shadow
     float shadow = currentDepth > closestDepth + bias ? 1.0 : 0.0;
+   
+
     
     return shadow;
 }
+
 
 void main()
 {
@@ -130,5 +132,5 @@ void main()
 
     // Combine final result with ambient and emissive lighting
     vec3 emissive = texture(material.emissiveTexture, TexCoords).rgb;  // Emissive lighting
-    FragColor = vec4(result + ambient + emissive, 1.0);  // Output the final color with full opacity
+    FragColor = vec4(result + ambient, 1.0);  // Output the final color with full opacity
 }

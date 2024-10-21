@@ -47,12 +47,14 @@ void LightingManager::updateDynamicLights(Shader* shader) {
 
 
         // Bind the shadow map for the current light to a unique texture unit starting from GL_TEXTURE7
-        int textureUnit = 7 + i + staticLightIndex;  // Start from GL_TEXTURE7, and increment for each light
+        GLuint textureUnit = 7 + i + staticLightIndex;  // Start from GL_TEXTURE7, and increment for each light
 
-        //std::cout << textureUnit << std::endl;
+        //std::cout << i + staticLightIndex << std::endl;
 
-        glActiveTexture(GL_TEXTURE0 + textureUnit);  // Activate the texture unit (e.g., GL_TEXTURE7, GL_TEXTURE8, etc.)
+        glActiveTexture(GL_TEXTURE7);  // Activate the texture unit (e.g., GL_TEXTURE7, GL_TEXTURE8, etc.)
         glBindTexture(GL_TEXTURE_2D, dynamicLightsVector[i]->shadowMapTexture);  // Bind the shadow map texture
+
+
 
         // Set the corresponding sampler uniform in the shader to use this texture unit
         shader->setInt("shadowMap[" + std::to_string(i + staticLightIndex) + "]", textureUnit);  // Map shadowMap[i] to texture unit (7 + i)

@@ -232,9 +232,12 @@ void runRenderLoop(SDL_Window* window) {
 
         MonobehaviorManager::Instance().update();
 
+        temp1.getComponent<Transform>()->position = temp1.getComponent<Transform>()->position + glm::vec3(0.5, 0, 0) * Time::deltaTime;
+        temp1.getComponent<Transform>()->updateModelMatrix();
+
         renderer.render();
 
-        //// Bind the shadow map texture
+        // Bind the shadow map texture
         //glActiveTexture(GL_TEXTURE0);
         //glBindTexture(GL_TEXTURE_2D, light->shadowMapTexture);  // shadowMapTexture is the depth texture ID
         //

@@ -30,7 +30,7 @@ uniform mat4 lightSpaceMatrix[NUM_LIGHTS];  // Light space matrices for each lig
 in vec3 FragPos;   // Position of the fragment
 in vec3 Normal;    // Interpolated normal
 in vec2 TexCoords; // Texture coordinates
-in vec3 TangentViewPos; // View position in tangent space for normal mapping
+//in vec3 TangentViewPos; // View position in tangent space for normal mapping
 in vec4 FragPosLightSpace[NUM_LIGHTS];  // Fragment position in light space
 
 // Helper function for Fresnel calculation
@@ -58,7 +58,6 @@ float distributionGGX(vec3 N, vec3 H, float roughness) {
     return num / denom;
 }
 
-// Shadow calculation function
 float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap) {
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;  // Perspective divide
     projCoords = projCoords * 0.5 + 0.5;  // Transform to [0, 1] range
@@ -73,10 +72,13 @@ float ShadowCalculation(vec4 fragPosLightSpace, sampler2D shadowMap) {
     float bias = 0.005;
     
     // Determine if the fragment is in shadow
-    float shadow = currentDepth > closestDepth + bias ? 1.0 : 0.0;
+    float shadow = currentDepth == closestDepth ? 1.0 : 0.0;
+    
+    shadow = closestDepth > 0 ? 1.0 : 0.0;
     
     return shadow;
 }
+
 
 void main()
 {
@@ -122,7 +124,7 @@ void main()
         float shadow = ShadowCalculation(FragPosLightSpace[i], shadowMap[i]);  // Get shadow factor
 
         // Accumulate the light contribution (include shadow factor)
-        result += (diffuse + specular) * radiance * NdotL * (1.0 - shadow);  // Apply shadow to light
+        result = vec3(shadow, 0.0, 1.0 - shadow);  // Apply shadow to light
     }
 
     // Optional: Ambient lighting using the AO map
@@ -130,5 +132,5 @@ void main()
 
     // Combine final result with ambient and emissive lighting
     vec3 emissive = texture(material.emissiveTexture, TexCoords).rgb;  // Emissive lighting
-    FragColor = vec4(result + ambient + emissive, 1.0);  // Output the final color with full opacity
+    FragColor = vec4(result, 1.0);  // Output the final color with full opacity
 }
