@@ -36,19 +36,19 @@ void DayNightLightCycle::updateTime() {
 
 
 glm::vec3 DayNightLightCycle::calculateSunDirection() {
-	float sunAngle = 0.74f * 360.0f;  // Convert time to angle
+	float sunAngle = timeOfDay * 360.0f;  // Convert time to angle
 	return glm::vec3(cos(glm::radians(sunAngle)), sin(glm::radians(sunAngle)), 0.0f);
 }
 
 glm::vec3 DayNightLightCycle::calculateLightColor() {
     if (timeOfDay < 0.25f || timeOfDay > 0.75f) {
-        return glm::vec3(0.0f, 0.0f, 0.1f);  // Night (dark blue tint)
+        return glm::vec3(1.0f, 178/255, 1.2/255);  // Night (dark blue tint)
     }
     else if (timeOfDay < 0.5f) {
-        return glm::vec3(1.0f, 0.0f, 0.0f);  // Morning (orange tint)
+        return glm::vec3(0.2f, 0.2f, 0.7f);  // Morning (orange tint)
     }
     else {
-        return glm::vec3(0.0f, 1.0f, 0.0f);  // Noon (white light)
+        return glm::vec3(8.0f, 8.0f, 8.0f);  // Noon (white light)
     }
 }
 

@@ -151,12 +151,22 @@ void runRenderLoop(SDL_Window* window) {
     //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
     lightSource.addComponent<Light>(DIRECTIONAL, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 3.0f);
 
-    //lightSource.addComponent<DayNightLightCycle>();
+    lightSource.addComponent<DayNightLightCycle>();
 
     renderer.addLight(lightSource.getComponent<Light>(), false);
 
     auto* light = lightSource.getComponent<Light>();
 
+    Entity lightSource1 = Entity();
+
+    //Light(LightType type, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular)
+    lightSource1.addComponent<Light>(DIRECTIONAL, glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), 3.0f);
+
+    lightSource1.addComponent<DayNightLightCycle>();
+
+    lightSource1.getComponent<DayNightLightCycle>()->timeOfDay = 0.5f;
+
+    renderer.addLight(lightSource1.getComponent<Light>(), false);
 #pragma endregion
 
 #pragma region Creating Camera

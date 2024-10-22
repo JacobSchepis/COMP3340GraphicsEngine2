@@ -10,9 +10,11 @@ public:
 
 	void update() override;
 
-private:
 	float timeOfDay = 0.0f;  // Starts at midnight
-	float daySpeed = 0.1f;  // Speed of time progression
+
+
+private:
+	float daySpeed = 0.05f;  // Speed of time progression
 
 	Light* light;
 
