@@ -29,7 +29,13 @@ public:
 
 	void setActiveCamera(Camera* camera);
 
+	void setupCloud();           // 初始化云层
+	void renderCloud();          // 渲染云层
+
 private:
+	GLuint cloudVAO, cloudVBO, cloudEBO;  // 云层的顶点数据
+	Shader* cloudShader;                   // 云层的着色器
+
 	std::unordered_map<Model*, int> objectShaderFlags;
 
 	std::unordered_map<ShaderType, Shader*> flagsToShader = {
